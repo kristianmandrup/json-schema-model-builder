@@ -1,6 +1,6 @@
 const {BaseType} = require('../base')
 const {Nested} = require('./nested')
-const {NestedObjectTypeName} = require('./type-name')
+const {createObjectTypeNameResolver} = require('./type-name')
 
 // no reason to test for properties, as we might be using $ref instead
 function isObject(property) {
@@ -27,10 +27,6 @@ class ObjectType extends BaseType {
     }
   }
 
-  get kind() {
-    return 'type'
-  }
-
   get defaultType() {
     return 'Object'
   }
@@ -42,22 +38,27 @@ class ObjectType extends BaseType {
   }
 
   resolveType() {
-    const typeName = this.resolveTypeName()
-    if (!typeName) 
+    const type = this.resolveTypeName()
+    if (!type) 
       return
-    this.dispatch({
+    this.dispatch(this.createPayload({type}))
+  }
+
+  createPayload(payload) {
+    return {
       payload: {
-        ownerName: this.ownerName,
-        propertyName: this.key,
-        typeName,
+        ...payload,
+        shape: this.shape,
         object: true
       }
-    })
+    }
   }
 
   get resolveTypeName() {
-    this.objectTypeNameResolver = new ObjectTypeNameResolver({object: this, config: this.config})
-    return objectTypeNameResolver.resolve()
+    this.objectTypeNameResolver = createObjectTypeNameResolver({object: this, config: this.config})
+    return this
+      .objectTypeNameResolver
+      .resolve()
   }
 
   get resolvedTypeName() {
@@ -68,8 +69,8 @@ class ObjectType extends BaseType {
     return new ObjectType(obj)
   }
 
-  get category() {
-    return 'class'
+  get kind() {
+    return 'type'
   }
 
   get collection() {

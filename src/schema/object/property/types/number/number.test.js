@@ -65,9 +65,10 @@ describe('Number', () => {
     })
 
     test('creates basic type shape', () => {
-      expect(shape.key).toEqual('age')
-      expect(shape.category).toEqual('primitive')
-      expect(shape.resolvedTypeName).toEqual('int')
+      expect(shape.name.key).toEqual('age')
+      expect(shape.type.kind).toEqual('primitive')
+      expect(shape.type.expanded).toEqual('integer')
+      expect(shape.type.property).toEqual('int')
     })
   })
 })
@@ -82,10 +83,12 @@ describe('configured with custom scalar type', () => {
   }
   const str = create('age', config)
   const {shape} = str
+  console.log({shape})
 
   test('creates type with custom scalar date', () => {
-    expect(shape.key).toEqual('age')
-    expect(shape.category).toEqual('primitive')
-    expect(shape.resolvedTypeName).toEqual('BigInt')
+    expect(shape.name.key).toEqual('age')
+    expect(shape.type.kind).toEqual('primitive')
+    expect(shape.type.expanded).toEqual('integer')
+    expect(shape.type.resolved).toEqual('BigInt')
   })
 })

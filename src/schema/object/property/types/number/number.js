@@ -22,7 +22,7 @@ class NumberType extends PrimitiveType {
     return 'number'
   }
 
-  get kind() {
+  get expanded() {
     return isIntegerType(this.type)
       ? 'integer'
       : this.defaultType
