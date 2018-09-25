@@ -1,0 +1,37 @@
+{
+  "name": "json-schema-model-builder",
+  "version": "0.2.0",
+  "main": "src/index.js",
+  "description": "Infrastructure components to easily build models directly from JSON Schema",
+  "license": "MIT",
+  "author": "Kristian Mandrup <kmandrup@gmail.com>",
+  "homepage": "https://github.com/kristianmandrup/json-schema-model-builder#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kristianmandrup/json-schema-model-builder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kristianmandrup/json-schema-model-builder/issues",
+    "email": "kmandrup@gmail.com"
+  },
+  "devDependencies": {
+    "jest": "^23.0.0"
+  },
+  "keywords": [
+    "json",
+    "json-schema",
+    "schema",
+    "graphql",
+    "types",
+    "transforms"
+  ],
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "camelcase": "^5.0.0",
+    "dot-prop": "^4.2.0",
+    "graph.js": "^1.21.1"
+  }
+}
