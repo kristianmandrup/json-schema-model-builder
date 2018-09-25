@@ -1,5 +1,7 @@
 # JSON Schema model builder
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/kristianmandrup/json-schema-model-builder.svg)](https://greenkeeper.io/)
+
 Infrastructure components to easily build models directly from JSON Schema
 
 ## Status
