@@ -33,11 +33,11 @@ describe('ItemsResolver', () => {
       })
     })
 
-    describe.skip('named object type', () => {
-      const resolved = resolver.resolveItem({name: 'Account', type: 'object', properties: {}})
+    describe('named object type', () => {
+      const resolved = resolver.resolveItem({name: 'account', typeName: 'MyAccount', type: 'object', properties: {}})
 
       test('resolves to name', () => {
-        expect(resolved).toEqual('Account')
+        expect(resolved).toEqual('MyAccount')
       })
     })
   })
@@ -48,7 +48,5 @@ describe('ItemsResolver', () => {
     test('resolves', () => {
       expect(resolved).toEqual(['String', 'Int'])
     })
-
   })
-
 })

@@ -17,6 +17,9 @@ const assignAt = (map, pos, value) => {
  * @param {String} word - Word or sentence.
  */
 const capitalize = (word) => {
+  if (!isStringType(word)) {
+    throw new Error(`capitalize: Invalid text ${word}`)
+  }
   return `${word
     .slice(0, 1)
     .toUpperCase()}${word
@@ -33,6 +36,9 @@ const capitalize = (word) => {
 const camelize = (text, {
   cap = true
 } = {}) => {
+  if (!isStringType(text)) {
+    throw new Error(`camelize: Invalid text ${text}`)
+  }
   return camelcase(text, {pascalCase: cap})
 }
 

@@ -20,7 +20,7 @@ const values = {
 
 const config = {}
 
-const create = ({property, config}) {
+const create = ({property, config}) => {
   return new createPropertyEntityResolver({property, config})
 }
 
@@ -103,8 +103,13 @@ describe('PropertyEntityResolver', () => {
 
   describe('primitive: array', () => {
     const name = 'scores'
-    const value = values.array
-    const resolver = create({name, key: name, value, config, built})
+    const property = {
+      ...values.array,
+      name,
+      key: name
+    }
+
+    const resolver = create({property, config})
 
     describe('resolve', () => {
       const entity = resolver.resolve()

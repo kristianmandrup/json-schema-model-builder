@@ -20,6 +20,16 @@ const arrays = {
       }
     ]
   },
+  strList: {
+    "type": "array",
+    name: 'accounts',
+    "items": [
+      {
+        type: 'string',
+        name: 'Yikes'
+      }
+    ]
+  },
   defRef: {
     "description": "Bank accounts",
     "type": "array",
@@ -77,6 +87,23 @@ describe('toArray', () => {
     expect(arr).toBeFalsy()
   })
 
+  describe('item type is string primitive', () => {
+    const arr = create('strList')
+    const {shape} = arr
+
+    describe('name', () => {
+      test('property', () => {
+        expect(shape.name.property).toEqual('strList')
+      })
+    })
+
+    describe('type', () => {
+      test('expanded: array', () => {
+        expect(shape.type.resolved).toEqual('String')
+      })
+    })
+  })
+
   describe('item type is embedded', () => {
     const arr = create('embedded')
     const {shape} = arr
@@ -128,7 +155,7 @@ describe('toArray', () => {
         })
 
         test('reference: embedded', () => {
-          expect(shape.type.reference).toEqual('reference')
+          expect(shape.type.refType).toEqual('embedded')
         })
 
         test('resolvedName: Account', () => {

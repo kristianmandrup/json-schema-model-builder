@@ -1,5 +1,5 @@
 const {Base} = require('../../base')
-const {property} = require('./propert')
+const {property} = require('./property')
 const {createPropertyEntityResolver} = property
 
 const createPropertiesResolver = ({object, config}) => {

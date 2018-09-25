@@ -35,15 +35,15 @@ class NumberType extends PrimitiveType {
   }
 
   get baseNumberType() {
-    this._types.number || this.baseFloatType
+    return this._types.number || this.baseFloatType
   }
 
   get baseFloatType() {
-    this._types.float || 'Float'
+    return this._types.float || 'Float'
   }
 
   get baseIntegerType() {
-    this._types.integer || 'Int'
+    return this._types.integer || this._types.int || 'Int'
   }
 
   static create(obj) {

@@ -104,24 +104,24 @@ describe('prepareProperty', () => {
       expect(prepared.key).toEqual('age')
     })
   })
-})
 
-describe('reduceProp', () => {
-  const created = create({object, config})
-  const entityMap = created.reduceProp('age')
-  const {age} = entityMap
+  describe('reduceProp', () => {
+    const created = create({object, config})
+    const entityMap = created.reduceProp('age')
+    const {age} = entityMap
 
-  describe('entity', () => {
-    test('is an object', () => {
-      expect(typeof age).toEqual('object')
-    })
+    describe('entity', () => {
+      test('is an object', () => {
+        expect(typeof age).toEqual('object')
+      })
 
-    test('is a primitive', () => {
-      expect(age.type).toEqual('primitive')
-    })
+      test('is a primitive', () => {
+        expect(age.type).toEqual('primitive')
+      })
 
-    test('has an object value', () => {
-      expect(typeof age.value).toEqual('object')
+      test('has an object value', () => {
+        expect(typeof age.value).toEqual('object')
+      })
     })
   })
 })

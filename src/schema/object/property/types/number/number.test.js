@@ -68,7 +68,7 @@ describe('Number', () => {
       expect(shape.name.key).toEqual('age')
       expect(shape.type.kind).toEqual('primitive')
       expect(shape.type.expanded).toEqual('integer')
-      expect(shape.type.property).toEqual('int')
+      expect(shape.type.property).toEqual('integer')
     })
   })
 })
@@ -83,7 +83,6 @@ describe('configured with custom scalar type', () => {
   }
   const str = create('age', config)
   const {shape} = str
-  console.log({shape})
 
   test('creates type with custom scalar date', () => {
     expect(shape.name.key).toEqual('age')

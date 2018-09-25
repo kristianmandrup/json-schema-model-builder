@@ -54,7 +54,7 @@ class ObjectType extends BaseType {
     }
   }
 
-  get resolveTypeName() {
+  resolveTypeName() {
     this.objectTypeNameResolver = createObjectTypeNameResolver({object: this, config: this.config})
     return this
       .objectTypeNameResolver
