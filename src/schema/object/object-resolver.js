@@ -6,10 +6,18 @@ const createObjectResolver = ({object, config, opts}) => {
   return new ObjectResolver({object, config, opts})
 }
 
+const resolveSchema = (opts) => {
+  return resolve({
+    ...opts,
+    name: 'resolveSchema'
+  })
+}
+
 const resolve = ({
   schema,
   object,
   config,
+  name = 'resolve',
   opts = {}
 }) => {
   const $object = object || schema
@@ -22,7 +30,7 @@ const resolve = ({
     }
   })
 
-  return resolver.resolve()
+  return resolver[name]()
 }
 
 class ObjectResolver extends Base {
@@ -39,8 +47,7 @@ class ObjectResolver extends Base {
       type,
       key,
       properties,
-      required,
-      definitions
+      required
     } = object
     this.title = title
     this.name = name
@@ -48,9 +55,9 @@ class ObjectResolver extends Base {
     this.type = type
     this.properties = properties
     this.required = required || []
-    this.definitions = definitions || {}
 
     if (this.isSchema) {
+      this.definitions = object.definitions || {}
       this.config.$schemaRef = object
     }
   }
@@ -87,7 +94,26 @@ class ObjectResolver extends Base {
     !isStringType(name) && this.error('resolve', `unable to determine schema name or object owner name: ${name}`)
   }
 
-  resolve() {
+  resolveSchema() {
+    this.resolve({
+      collections = ['properties', 'definitions']
+    })
+  }
+
+  resolve({
+    collections = ['properties']
+  }) {
+    const map = collections.reduce((acc, name) => {
+      acc[name] = this.resolveCollection(name)
+      return acc
+    }, {})
+
+    return this.isSchema
+      ? map
+      : map.properties
+  }
+
+  resolveCollection(mapName = 'properties') {
     this.validate()
     const schemaName = this.title || this.name
     const name = camelize(schemaName || this.key)
@@ -97,7 +123,7 @@ class ObjectResolver extends Base {
       owner: {
         name: name
       },
-      properties: this.properties
+      properties: this[mapName]
     }
     console.log(object)
     const resolver = createPropertiesResolver({object, config: this.config})
@@ -137,6 +163,7 @@ class ObjectResolver extends Base {
 
 module.exports = {
   resolve,
+  resolveSchema,
   createObjectResolver,
   ObjectResolver
 }
