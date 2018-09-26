@@ -43,9 +43,9 @@ describe('PropertyEntityResolver', () => {
             name: 'x'
           }
         }
-        const selected = resolver.selectEntity(map)
+        const entity = resolver.selectEntity(map)
         test('selects only value', () => {
-          expect(selected.name).toEqual('x')
+          expect(entity.name).toEqual('x')
         })
       })
 
@@ -58,9 +58,9 @@ describe('PropertyEntityResolver', () => {
             name: 'myEnum'
           }
         }
-        const selected = resolver.selectEntity(map)
+        const entity = resolver.selectEntity(map)
         test('selects enum over primitive', () => {
-          expect(entity.value.name).toEqual('myEnum')
+          expect(entity.name).toEqual('myEnum')
         })
       })
 
@@ -84,8 +84,9 @@ describe('PropertyEntityResolver', () => {
       })
     })
 
-    describe('resolve', () => {
+    describe.only('resolve', () => {
       const entity = resolver.resolve()
+      cosole.log({entity})
 
       test('entity object', () => {
         expect(entity.type).toEqual('primitive')

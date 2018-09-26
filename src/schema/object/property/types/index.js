@@ -11,8 +11,6 @@ const types = {
   enum: require('./enum')
 }
 
-console.log({types})
-
 const typeNames = [
   'array',
   'boolean',

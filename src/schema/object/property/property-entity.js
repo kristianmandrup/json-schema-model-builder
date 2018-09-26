@@ -58,7 +58,6 @@ class PropertyEntityResolver extends Base {
       .keys(resolvers)
       .reduce((acc, key) => {
         const resolver = resolvers[key]
-        console.log({resolver, resolvers})
         this.validateResolver(resolver, key)
         const resolved = resolver({property: this.property, config: this.config})
         if (!resolved) 
@@ -66,17 +65,17 @@ class PropertyEntityResolver extends Base {
         const resultKey = resolved
           ? resolved.kind
           : undefined
-        // this.log({resolved})
         !isStringType(resultKey) && this.error('resolveMap', `resolved entity has invalid or missing kind ${resolved.kind}`)
-        const value = this.shapeResolver(resolved)
+        const value = shapeResolver(resolved)
         assignAt(acc, resultKey, value)
         return acc
       }, {})
   }
 
   resolve() {
-    this.map = this.resolveTypes()
-    const entity = this.selectEntity(this.map)
+    const map = this.resolveMap()
+    console.log({map})
+    const entity = this.selectEntity(map)
     this.onEntity(entity)
     return entity
   }
@@ -99,6 +98,7 @@ class PropertyEntityResolver extends Base {
     if (map.primitive && map.enum) {
       return map.enum
     }
+    console.log('selectEntity', {map})
     const values = Object.values(map)
     const keys = Object.keys(map)
     return values.length === 1
@@ -107,6 +107,7 @@ class PropertyEntityResolver extends Base {
   }
 
   onSelectConflict({map, values, keys}) {
+    console.log('onSelectConflict', {map, values, keys})
     values.length === 0
       ? this.error('selectEntity', `no resolver result`)
       : this.error('selectEntity', `conflicting result: ${keys.join(', ')}`)

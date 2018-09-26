@@ -8,6 +8,7 @@ const createSchema = ({schema, config}) => {
 
 class Schema extends Base {
   constructor({schema, config}) {
+    super(config)
     this.schema = schema
     this.properties = schema.properties
   }
