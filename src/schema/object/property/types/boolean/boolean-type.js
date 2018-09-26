@@ -1,5 +1,6 @@
-const {PrimitiveType} = require('../primitive-type')
+const {PrimitiveType} = require('../primitive')
 const {checkType} = require('../base-type')
+const {camelize} = require('../utils')
 
 function isBoolean(property) {
   return checkType(property, 'boolean')

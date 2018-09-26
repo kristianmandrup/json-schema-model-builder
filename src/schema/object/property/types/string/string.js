@@ -1,4 +1,4 @@
-const {PrimitiveType} = require('../primitive-type')
+const {PrimitiveType} = require('../primitive')
 
 function isString(property) {
   return property.type === 'string'

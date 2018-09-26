@@ -1,4 +1,4 @@
-const {PrimitiveType} = require('../primitive-type')
+const {PrimitiveType} = require('../primitive')
 const {isDate} = require('./utils')
 const {camelize} = require('../utils')
 

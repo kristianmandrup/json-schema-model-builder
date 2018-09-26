@@ -14,8 +14,8 @@ function resolve({property, config}) {
 
 // Allow recursive schema
 class ObjectType extends BaseType {
-  constructor(property, config) {
-    super(property, config)
+  constructor({property, config, opts}) {
+    super({property, config, opts})
     const {properties, typeName} = this.property
     this.properties = properties
     this.objTypeName = typeName
@@ -84,9 +84,12 @@ class ObjectType extends BaseType {
 
   // TODO: use object-resolver, passing schema: false
   resolveNested() {
-    if (!this.valid) 
+    if (!this.shouldResolveNested) 
       return this
-    return this
+  }
+
+  shouldResolveNested() {
+    return this.valid && this.opts.nested
   }
 
   get valid() {

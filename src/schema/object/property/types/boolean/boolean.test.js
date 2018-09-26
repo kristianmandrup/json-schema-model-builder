@@ -69,10 +69,9 @@ describe('Boolean', () => {
     })
 
     test('creates basic type shape', () => {
-      expect(shape.key).toEqual('basic')
-      expect(shape.category).toEqual('primitive')
-      expect(shape.baseType).toEqual('Boolean')
-      expect(shape.resolvedTypeName).toEqual('Boolean')
+      expect(shape.name.property.key).toEqual('basic')
+      expect(shape.type.kind).toEqual('primitive')
+      expect(shape.type.resolved).toEqual('Boolean')
     })
   })
 
@@ -84,15 +83,14 @@ describe('Boolean', () => {
     }
     const bool = create('withDefault', config)
     const {shape} = bool
-
     test('is valid type', () => {
       expect(shape.valid).toBe(true)
     })
 
     test('creates shape with @defaultValue decorator when targeted for prisma', () => {
-      expect(shape.key).toEqual('withDefault')
-      expect(shape.category).toEqual('primitive')
-      expect(shape.resolvedTypeName).toEqual('Boolean')
+      expect(shape.name.property.key).toEqual('withDefault')
+      expect(shape.type.kind).toEqual('primitive')
+      expect(shape.type.resolved).toEqual('Boolean')
     })
 
     describe('with untargeted default decorator', () => {
@@ -103,9 +101,9 @@ describe('Boolean', () => {
       }
       const bool = create('withDefault', config)
       const {shape} = bool
-
+      // console.log({shape, name: shape.name})
       test('creates basic shape when not configured to target prisma', () => {
-        expect(shape.resolvedTypeName).toEqual('Boolean')
+        expect(shape.type.resolved).toEqual('Boolean')
       })
     })
   })

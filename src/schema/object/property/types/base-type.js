@@ -13,9 +13,11 @@ class PropertyError extends Error {}
 class $BaseType extends Base {
   constructor({
     property,
-    config = {}
+    config = {},
+    opts
   } = {}) {
-    super(config)
+    super(config, opts)
+    this.opts = opts
     let {
       owner,
       type,

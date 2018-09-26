@@ -69,7 +69,7 @@ describe('Enum', () => {
     const $enum = create('colors')
     const {shape} = $enum
     expect(shape.valid).toBe(true)
-    expect(shape.category).toEqual('enum')
+    expect(shape.type.kind).toEqual('enum')
     expect(shape.values).toEqual(['red', 'blue'])
   })
 })

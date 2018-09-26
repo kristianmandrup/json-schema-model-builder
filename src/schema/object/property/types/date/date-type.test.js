@@ -1,6 +1,5 @@
-const {resolve, isDate} = require('./date-type
- ')
- const dates = {
+const {resolve, isDate} = require('./date-type')
+const dates = {
   invalid: {
     type: 'date'
   },
@@ -48,8 +47,9 @@ describe('isDate', () => {
       expect(check).toBe(false)
     })
   })
-})describe('Date', () => {
+})
 
+describe('Date', () => {
   test('invalid type', () => {
     const date = create('invalid')
     expect(date).toBeFalsy()
@@ -64,25 +64,27 @@ describe('isDate', () => {
     })
 
     test('creates basic type shape', () => {
-      expect(shape.key).toEqual('birthDate')
-      expect(shape.category).toEqual('primitive')
-      expect(shape.resolvedTypeName).toEqual('Date')
+      expect(shape.name.property.key).toEqual('birthDate')
+      expect(shape.type.kind).toEqual('primitive')
+      expect(shape.type.resolved).toEqual('Date')
     })
   })
-})describe('configured with custom scalar type', () => {
-  const config = {
-    _meta_: {
-      types: {
-        date: 'MyScalarDate'
+
+  describe('configured with custom scalar type', () => {
+    const config = {
+      _meta_: {
+        types: {
+          date: 'MyScalarDate'
+        }
       }
     }
-  }
-  const str = create('birthDate', config)
-  const {shape} = str
+    const str = create('birthDate', config)
+    const {shape} = str
 
-  test('creates type with custom scalar date', () => {
-    expect(shape.key).toEqual('birthDate')
-    expect(shape.category).toEqual('primitive')
-    expect(shape.resolvedTypeName).toEqual('MyScalarDate')
+    test('creates type with custom scalar date', () => {
+      expect(shape.name.property.key).toEqual('birthDate')
+      expect(shape.type.kind).toEqual('primitive')
+      expect(shape.type.resolved).toEqual('MyScalarDate')
+    })
   })
 })
