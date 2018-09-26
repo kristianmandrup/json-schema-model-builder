@@ -65,7 +65,7 @@ describe('ItemsResolver', () => {
     describe('resolve', () => {
       const resolved = resolver.resolve()
       test('single enum type resolved', () => {
-        expect(resolved).toEqual('Enum')
+        expect(resolved).toEqual(['Enum'])
       })
     })
   })

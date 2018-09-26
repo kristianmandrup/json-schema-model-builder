@@ -74,15 +74,20 @@ class PropertyEntityResolver extends Base {
 
   resolve() {
     const map = this.resolveMap()
-    // console.log('resolve', {map})
     const entity = this.selectEntity(map)
     this.onEntity(entity)
     return entity
   }
 
+  resolveType() {
+    const map = this.resolveMap()
+    const entity = this.selectEntity(map)
+    return this.itemType(entity)
+  }
+
   resolveTypes() {
     const map = this.resolveMap()
-    const values = Object.values(map)
+    const values = Object.values(entity)
     return values.map(this.itemType.bind(this))
   }
 
@@ -97,12 +102,11 @@ class PropertyEntityResolver extends Base {
   }
 
   selectEntity(map) {
+    const keys = Object.keys(map)
     if (map.primitive && map.enum) {
       return map.enum
     }
-    // console.log('selectEntity', {map})
     const values = Object.values(map)
-    const keys = Object.keys(map)
     const resultCount = values.length || 0
     resultCount === 0 && this.error('selectEntity', 'no results can be selected from result map', map)
 

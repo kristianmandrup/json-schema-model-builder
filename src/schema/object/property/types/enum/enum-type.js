@@ -22,6 +22,10 @@ class EnumType extends BaseType {
     return 'enum'
   }
 
+  get resolvedTypeName() {
+    return 'Enum'
+  }
+
   static create(property, config) {
     return new EnumType(property, config)
   }
