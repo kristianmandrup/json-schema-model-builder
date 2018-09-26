@@ -48,10 +48,10 @@ class PropertyEntityResolver extends Base {
     return true
   }
 
-  resolveMap(shapeResolver) {
+  resolveMap(resolveShape) {
     this.validate()
-    shapeResolver = shapeResolver || this
-      .shapeResolver
+    resolveShape = resolveShape || this
+      .resolveShape
       .bind(this)
     const {resolvers} = this
     return Object
@@ -66,7 +66,7 @@ class PropertyEntityResolver extends Base {
           ? resolved.kind
           : undefined
         !isStringType(resultKey) && this.error('resolveMap', `resolved entity has invalid or missing kind ${resolved.kind}`)
-        const value = shapeResolver(resolved)
+        const value = resolveShape(resolved)
         assignAt(acc, resultKey, value)
         return acc
       }, {})
@@ -82,14 +82,14 @@ class PropertyEntityResolver extends Base {
   resolveType() {
     const map = this.resolveMap()
     const entity = this.selectEntity(map)
-    return this.itemType(entity)
+    return this.entityType(entity)
   }
 
-  itemType(item) {
-    return item.type.resolved
+  entityType(entity) {
+    return entity.type.resolved
   }
 
-  shapeResolver(resolved) {
+  resolveShape(resolved) {
     return resolved.shape
       ? resolved.shape
       : this.error('shapeResolver', 'missing shape', resolved)

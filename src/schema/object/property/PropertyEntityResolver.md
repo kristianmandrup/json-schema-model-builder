@@ -18,13 +18,13 @@ The resolver decides which entity it is and calls `onEntity(entity)` (by default
 
 Resolves entities to a single type
 
-## itemType(item)
+## entityType(entity)
 
-selects the `type` for an item (ie. entity)
+Extracts the `type` for an entity
 
-## shapeResolver(resolved)
+## resolveShape(resolved)
 
-Resolve entity to a shape
+Resolve resolved property to a shape
 
 ## selectEntity(map)
 
@@ -54,9 +54,10 @@ By default the entity is dispatched to the dispatcher which then adds the entity
     this
       .dispatcher
       .dispatch(event)
-  }```
+  }
+```
 
-Further on...
+Further on use the state to add entity to the state model (and graph)
 
 ```js
 this.state.add(entity.value, entity.type);
