@@ -18,9 +18,11 @@ class Base {
     this.log(errMsg)
   }
 
-  error(name, msg) {
+  error(name, msg, value) {
     const errMsg = `ERROR [${this.constructor.name}:${name}] ${msg}`
-    this.logErr(errMsg)
+    value
+      ? this.logErr(errMsg, value)
+      : this.logErr(errMsg)
     throw new Error(errMsg)
   }
 }

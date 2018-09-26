@@ -28,7 +28,6 @@ describe('ItemsResolver', () => {
 
       test('resolves integer', () => {
         const resolved = resolver.resolveItem(intItem)
-        console.log({resolved})
         expect(resolved).toEqual('Int')
       })
     })

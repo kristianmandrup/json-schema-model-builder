@@ -45,7 +45,6 @@ describe('Schema', () => {
     const {enums, types} = resolved
 
     test('it resolves schema', () => {
-      console.log({resolved})
       expect(resolved).toBeTruthy()
     })
 

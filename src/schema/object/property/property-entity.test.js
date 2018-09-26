@@ -1,5 +1,4 @@
 const {createPropertyEntityResolver} = require('./property-entity')
-// console.log({createPropertyEntityResolver})
 
 const values = {
   number: {
@@ -19,10 +18,18 @@ const values = {
   }
 }
 
-const config = {}
+const {log} = console
 
 const create = ({property, config}) => {
   return createPropertyEntityResolver({property, config})
+}
+
+const config = {
+  _meta: {
+    types: {
+      number: 'float'
+    }
+  }
 }
 
 describe('PropertyEntityResolver', () => {
@@ -32,7 +39,7 @@ describe('PropertyEntityResolver', () => {
     const property = {
       name,
       key: name,
-      value
+      ...value
     }
     const resolver = create({property, config})
 
@@ -84,25 +91,27 @@ describe('PropertyEntityResolver', () => {
       })
     })
 
-    describe.only('resolve', () => {
+    describe('resolve', () => {
       const entity = resolver.resolve()
-      cosole.log({entity})
 
       test('entity object', () => {
-        expect(entity.type).toEqual('primitive')
-        expect(entity.value).toBeTruthy()
+        expect(entity).toBeTruthy()
+
       })
 
       test('primitive', () => {
-        const {value} = entity
-        expect(value.jsonPropType).toEqual('number')
-        expect(value.expandedType).toEqual('float')
-        expect(value.name).toEqual('age')
-        expect(value.resolvedTypeName).toEqual('Float')
+        const {type, name} = entity
+        expect(type.kind).toEqual('primitive')
+        expect(type.property).toEqual('number')
+        expect(type.expanded).toEqual('number')
+        expect(name.property.key).toEqual('age')
+        expect(type.resolved).toEqual('Float')
       })
     })
   })
+})
 
+describe.only('PropertyEntityResolver: Array', () => {
   describe('primitive: array', () => {
     const name = 'scores'
     const property = {
@@ -110,28 +119,43 @@ describe('PropertyEntityResolver', () => {
       name,
       key: name
     }
-
     const resolver = create({property, config})
+    // log({resolver})
 
     describe('resolve', () => {
       const entity = resolver.resolve()
-
+      const {type, name} = entity
+      // log({entity, type, name})
       test('entity object', () => {
-        expect(entity.type).toEqual('primitive')
-        expect(entity.value).toBeTruthy()
+        expect(entity).toBeTruthy()
       })
 
-      test('primitive', () => {
-        const {value} = entity || {}
-        expect(value.jsonPropType).toEqual('number')
-        expect(value.expandedType).toEqual('float')
-        expect(value.name).toEqual('scores')
-        expect(value.list).toBe(true)
-        expect(value.resolvedTypeName).toEqual('Int')
+      describe('type', () => {
+        test('kind', () => {
+          expect(type.kind).toEqual('primitive')
+        })
+
+        test('expanded', () => {
+          expect(type.expanded).toEqual('array')
+        })
+
+        test('prop key', () => {
+          expect(name.property.key).toEqual('scores')
+        })
+
+        test('resolved', () => {
+          expect(type.resolved).toEqual('Int')
+        })
+      })
+
+      test('is list?', () => {
+        expect(entity.list).toBe(true)
       })
     })
   })
+})
 
+describe('PropertyEntityResolver: Enum', () => {
   describe('enum: colors', () => {
     describe('primitive: number', () => {
       const name = 'colors'
@@ -144,16 +168,15 @@ describe('PropertyEntityResolver', () => {
 
       describe('resolve', () => {
         const entity = resolver.resolve()
-
         test('result object', () => {
-          expect(entity.type).toEqual('enum')
-          expect(entity.value).toBeTruthy()
+          expect(entity).toBeTruthy()
         })
 
         test('enum', () => {
-          const {value} = entity || {}
-          expect(value.name).toEqual('colors')
-          expect(value.values).toEqual(['good', 'bad'])
+          const {name, values} = entity
+
+          expect(name.property.key).toEqual('colors')
+          expect(values).toEqual(['good', 'bad'])
         })
       })
     })

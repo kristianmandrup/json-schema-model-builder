@@ -33,7 +33,6 @@ describe('ObjectResolver', () => {
 
     test('resolve', () => {
       const resolved = obj.resolve()
-      console.log({resolved})
       expect(resolved).toBeTruthy()
     })
 

@@ -35,9 +35,11 @@ class ItemsResolver extends Base {
     if (!isFunctionType(this.createPropertyEntityResolver)) {
       this.error('typeResolver', 'Missing createPropertyEntityResolver (pass in config factories map)')
     }
-    return this
+    const types = this
       .createPropertyEntityResolver({property: item, config: this.config})
-      .resolve()
+      .resolveTypes()
+    types.length > 1 && this.error('typeResolver', 'should only resolve to a single type', types)
+    return types[0]
   }
 }
 

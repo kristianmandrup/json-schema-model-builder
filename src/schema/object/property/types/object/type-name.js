@@ -53,7 +53,6 @@ class ObjectTypeNameResolver extends Base {
     const {object} = this
     const name = this.resolvedTypeName || object.defaultType
     if (!name) {
-      console.log({property, resolvedTypeName: this.resolvedTypeName, defaultType: object.defaultType})
       this.error('typeName', `No type name could be determined: ${name}`)
     }
     return camelize(name)

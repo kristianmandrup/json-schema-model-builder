@@ -18,6 +18,7 @@ function resolve({property, config}) {
 }
 
 class NumberType extends PrimitiveType {
+  // allow more type meta control, such as expanded name etc this._types.number ||
   get defaultType() {
     return 'number'
   }

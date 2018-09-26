@@ -1,6 +1,6 @@
 const {Base} = require('../../../../base')
 const {createDefinitionRefResolver} = require('../reference')
-const {camelize} = require('./utils')
+const {camelize, isStringType} = require('./utils')
 
 function checkType(property, type) {
   if (typeof property !== 'object') {
@@ -212,7 +212,10 @@ class $BaseType extends Base {
         .pathNames
         .join(this.separator.type)
       : this.key
-    return camelize(name)
+    return name
+      ? camelize(name)
+      // when an array item type
+      : undefined
   }
 
   get fullName() {
@@ -250,10 +253,15 @@ class $BaseType extends Base {
   }
 
   get typeName() {
-    return this.objTypeName || this.reference && this.refResolver.typeName
+    return this.objTypeName || this.remoteTypeName
+  }
+
+  get remoteTypeName() {
+    return this.reference && this.refResolver.typeName
   }
 
   get resolvedTypeName() {
+
     return this.typeName || this.baseType
   }
 
@@ -281,9 +289,12 @@ class $BaseType extends Base {
     return this
   }
 
-  error(name, msg) {
+  error(name, msg, value) {
+    if (!isStringType(name)) {
+      throw new Error('error', `must take name string as first argument, was: ${typeof name}`)
+    }
     name = [this.key, this.type, name].join('::')
-    super.error(name, msg)
+    super.error(name, msg, value)
   }
 }
 

@@ -80,13 +80,33 @@ describe('resolve', () => {
   })
 
   describe('nested', () => {
-    test('valid type with embedded object using typeName', () => {
+    describe('valid type with embedded object using typeName', () => {
       const obj = create('account')
       const {shape} = obj
-      expect(shape.valid).toBe(true)
-      expect(shape.type.kind).toEqual('type')
-      expect(shape.type.refType).toEqual('embedded')
-      expect(shape.type.resolved).toEqual('Account')
+      test('is valid', () => {
+        expect(shape.valid).toBe(true)
+      })
+
+      test('resolvedTypeName', () => {
+        expect(obj.resolvedTypeName).toEqual('Account')
+      })
+
+      describe('type', () => {
+        test('kind is type', () => {
+          expect(shape.type.kind).toEqual('type')
+        })
+        test('embedded reference type', () => {
+
+          expect(shape.type.refType).toEqual('embedded')
+        })
+        test('resolved to Account', () => {
+          expect(shape.type.resolved).toEqual('Account')
+        })
+        test('fullname is ??', () => {
+          expect(shape.type.fullName).toEqual('Account')
+        })
+
+      })
     })
   })
 

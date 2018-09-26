@@ -1,6 +1,4 @@
-// const {BaseType} = require('../base')
 const {PrimitiveType} = require('../primitive')
-// const {isObjectType} = require('../utils')
 
 function isArray(property) {
   // items can be resolved via external $ref ??

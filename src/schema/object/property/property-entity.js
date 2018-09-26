@@ -74,7 +74,7 @@ class PropertyEntityResolver extends Base {
 
   resolve() {
     const map = this.resolveMap()
-    console.log({map})
+    // console.log('resolve', {map})
     const entity = this.selectEntity(map)
     this.onEntity(entity)
     return entity
@@ -92,25 +92,27 @@ class PropertyEntityResolver extends Base {
 
   shapeResolver(resolved) {
     return resolved.shape
+      ? resolved.shape
+      : this.error('shapeResolver', 'missing shape', resolved)
   }
 
   selectEntity(map) {
     if (map.primitive && map.enum) {
       return map.enum
     }
-    console.log('selectEntity', {map})
+    // console.log('selectEntity', {map})
     const values = Object.values(map)
     const keys = Object.keys(map)
-    return values.length === 1
+    const resultCount = values.length || 0
+    resultCount === 0 && this.error('selectEntity', 'no results can be selected from result map', map)
+
+    return resultCount === 1
       ? values[0]
       : this.onSelectConflict({map, values, keys})
   }
 
   onSelectConflict({map, values, keys}) {
-    console.log('onSelectConflict', {map, values, keys})
-    values.length === 0
-      ? this.error('selectEntity', `no resolver result`)
-      : this.error('selectEntity', `conflicting result: ${keys.join(', ')}`)
+    this.error('selectEntity', `conflicting result: ${keys.join(', ')}`, map)
   }
 
   onEntity(entity) {
