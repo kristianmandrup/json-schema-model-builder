@@ -1,14 +1,14 @@
-const {BaseProp, PropError} = require('./base')
+const {BaseType, PropError} = require('./base-type')
 const {capitalize} = require('./utils')
 
 const types = {
-  array: require('./array/array'),
-  boolean: require('./boolean/boolean'),
-  number: require('./number/number'),
-  object: require('./object/object'),
+  array: require('./array/array-type'),
+  boolean: require('./boolean/boolean-type'),
+  number: require('./number/number-type'),
+  object: require('./object/object-type'),
   string: require('./string/string'),
-  date: require('./date/date'),
-  enum: require('./enum/enum')
+  date: require('./date/date-type'),
+  enum: require('./enum/enum-type')
 }
 
 const typeNames = [

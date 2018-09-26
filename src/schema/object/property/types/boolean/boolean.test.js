@@ -1,4 +1,4 @@
-const {resolve, isBoolean} = require('./boolean')
+const {resolve, isBoolean} = require('./boolean-type')
 
 const booleans = {
   invalid: {

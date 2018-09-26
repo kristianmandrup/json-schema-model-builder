@@ -240,7 +240,7 @@ class $BaseType extends Base {
   }
 
   get typeName() {
-    return this.reference && this.refResolver.typeName
+    return this.objTypeName || this.reference && this.refResolver.typeName
   }
 
   get resolvedTypeName() {

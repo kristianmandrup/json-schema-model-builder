@@ -1,4 +1,4 @@
-const {resolve, isObject} = require('./object')
+const {resolve, isObject} = require('./object-type')
 
 const objects = {
   invalid: {
@@ -10,6 +10,7 @@ const objects = {
   account: {
     "description": "Bank account",
     type: 'object',
+    typeName: 'Account',
     properties: {
       "name": {
         "type": "string"
@@ -18,6 +19,7 @@ const objects = {
   },
   referenced: {
     type: 'object',
+    properties: {},
     "$ref": "#/definitions/car"
   }
 }
@@ -82,7 +84,7 @@ describe('resolve', () => {
       const obj = create('account')
       const {shape} = obj
       expect(shape.valid).toBe(true)
-      expect(shape.kind).toEqual('type')
+      expect(shape.type.kind).toEqual('type')
       expect(shape.type.refType).toEqual('embedded')
       expect(shape.type.resolved).toEqual('Account')
     })
@@ -90,12 +92,22 @@ describe('resolve', () => {
 
   describe('referenced', () => {
     test('valid type', () => {
-      const obj = create('referenced')
+      const obj = create('referenced', {
+        rootSchema: {
+          definitions: {
+            car: {
+              type: 'string',
+              typeName: 'SuperCar'
+            }
+          }
+        }
+      })
       const {shape} = obj
+      // console.log({shape, type: shape.type, ref: shape.type.reference})
       expect(shape.valid).toBe(true)
-      expect(shape.kind).toEqual('type')
+      expect(shape.type.kind).toEqual('type')
       expect(shape.type.refType).toEqual('reference')
-      expect(shape.type.resolved).toEqual('Car')
+      expect(shape.type.reference.name).toEqual('Car')
     })
   })
 })

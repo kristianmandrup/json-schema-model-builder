@@ -1,5 +1,5 @@
-const {PrimitiveType} = require('../primitive')
-const {checkType} = require('../base')
+const {PrimitiveType} = require('../primitive=type')
+const {checkType} = require('../base-type')
 
 function isIntegerType(typeName) {
   return typeName === 'integer'

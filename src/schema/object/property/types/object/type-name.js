@@ -9,24 +9,25 @@ class ObjectTypeNameResolver extends Base {
   constructor({object, config}) {
     super(config)
     this.object = object
+    this.property = object.property
     this.config = config
     this.validate()
   }
 
   get isValidType() {
-    return this.object.type === 'object'
+    return this.property.type === 'object'
   }
 
   get isAnObject() {
-    return isObjectType(this.object)
+    return isObjectType(this.property)
   }
 
   get hasPropertiesObject() {
-    return isObjectType(this.object.properties)
+    return isObjectType(this.property.properties)
   }
 
   validateObject() {
-    !this.isAnObject && this.error('validate', `object must be a javascript object, was: ${typeof this.object}`)
+    !this.isAnObject && this.error('validate', `object must be a javascript object, was: ${typeof this.property}`)
     return true
   }
 
@@ -41,7 +42,7 @@ class ObjectTypeNameResolver extends Base {
   }
 
   validate() {
-    return this.validateObject() && this.validateType() && this.validateProperties()
+    return this.validateObject() && this.validateType() // && this.validateProperties()
   }
 
   resolve() {
@@ -52,19 +53,19 @@ class ObjectTypeNameResolver extends Base {
     const {object} = this
     const name = this.resolvedTypeName || object.defaultType
     if (!name) {
-      console.log({object})
+      console.log({property, resolvedTypeName: this.resolvedTypeName, defaultType: object.defaultType})
       this.error('typeName', `No type name could be determined: ${name}`)
     }
     return camelize(name)
   }
 
   get resolvedTypeName() {
-    const {object} = this
-    const {typeName} = object
-    const {name, type} = object.shape || {}
-    let {property} = name || {}
-    let {resolved, fullName} = type || {}
-    this._resolvedTypeName = this._resolvedTypeName || (typeName || resolved || fullName || property)
+    const {typeName} = this.property
+    const {name, type} = this.property.shape || {}
+    let {property: propName} = name || {}
+    let {resolved, fullName, reference} = type || {}
+    let refName = (reference || {}).name
+    this._resolvedTypeName = this._resolvedTypeName || (typeName || refName || resolved || fullName || propName)
     return this._resolvedTypeName
   }
 }

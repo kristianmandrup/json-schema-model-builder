@@ -1,4 +1,4 @@
-const {resolve, isEnum} = require('./enum')
+const {resolve, isEnum} = require('./enum-type')
 
 const enums = {
   invalid: {

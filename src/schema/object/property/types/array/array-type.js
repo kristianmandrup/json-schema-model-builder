@@ -1,5 +1,5 @@
 // const {BaseType} = require('../base')
-const {PrimitiveType} = require('../primitive')
+const {PrimitiveType} = require('../primitive-type')
 const {ItemsResolver} = require('./items')
 // const {isObjectType} = require('../utils')
 

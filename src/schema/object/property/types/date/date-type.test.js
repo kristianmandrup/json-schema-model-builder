@@ -1,6 +1,6 @@
-const {resolve, isDate} = require('./date')
-
-const dates = {
+const {resolve, isDate} = require('./date-type
+ ')
+ const dates = {
   invalid: {
     type: 'date'
   },
@@ -48,9 +48,7 @@ describe('isDate', () => {
       expect(check).toBe(false)
     })
   })
-})
-
-describe('Date', () => {
+})describe('Date', () => {
 
   test('invalid type', () => {
     const date = create('invalid')
@@ -71,9 +69,7 @@ describe('Date', () => {
       expect(shape.resolvedTypeName).toEqual('Date')
     })
   })
-})
-
-describe('configured with custom scalar type', () => {
+})describe('configured with custom scalar type', () => {
   const config = {
     _meta_: {
       types: {

@@ -1,4 +1,4 @@
-const {resolve, isNumber} = require('./number')
+const {resolve, isNumber} = require('./number-type')
 
 const numbers = {
   invalid: {

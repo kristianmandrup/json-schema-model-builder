@@ -1,4 +1,4 @@
-const {BaseType} = require('../base')
+const {BaseType} = require('../base-type')
 const {camelize} = require('../utils')
 
 function isEnum(property) {

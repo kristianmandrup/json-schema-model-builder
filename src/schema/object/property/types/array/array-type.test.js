@@ -1,4 +1,4 @@
-const {resolve, isArray} = require('./array')
+const {resolve, isArray} = require('./array-type')
 
 const arrays = {
   invalid: {

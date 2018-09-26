@@ -1,5 +1,4 @@
-const {BaseType} = require('../base')
-const {Nested} = require('./nested')
+const {BaseType} = require('../base-type')
 const {createObjectTypeNameResolver} = require('./type-name')
 
 // no reason to test for properties, as we might be using $ref instead
@@ -19,7 +18,7 @@ class ObjectType extends BaseType {
     super(property, config)
     const {properties, typeName} = this.property
     this.properties = properties
-    this.typeName = typeName
+    this.objTypeName = typeName
   }
 
   get shape() {
@@ -83,11 +82,10 @@ class ObjectType extends BaseType {
     return true
   }
 
+  // TODO: use object-resolver, passing schema: false
   resolveNested() {
     if (!this.valid) 
       return this
-    const nested = new Nested({value: this.value})
-    this.nested = nested.resolve()
     return this
   }
 

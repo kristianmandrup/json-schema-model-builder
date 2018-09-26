@@ -1,1 +1,1 @@
-module.exports = require('./primitive')
+module.exports = require('./primitive-type')

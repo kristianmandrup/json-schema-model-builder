@@ -1,4 +1,4 @@
-const {BaseType} = require('../base')
+const {BaseType} = require('../base-type')
 
 class PrimitiveType extends BaseType {
   get category() {
