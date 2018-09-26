@@ -85,12 +85,6 @@ class PropertyEntityResolver extends Base {
     return this.itemType(entity)
   }
 
-  resolveTypes() {
-    const map = this.resolveMap()
-    const values = Object.values(entity)
-    return values.map(this.itemType.bind(this))
-  }
-
   itemType(item) {
     return item.type.resolved
   }

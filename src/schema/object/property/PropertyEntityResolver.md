@@ -14,6 +14,22 @@ By default the property is set up to collect an entity as either:
 
 The resolver decides which entity it is and calls `onEntity(entity)` (by default to dispatch the an event with the entity). Finally `resolve` returns the resolved entity.
 
+## resolveType
+
+Resolves entities to a single type
+
+## itemType(item)
+
+selects the `type` for an item (ie. entity)
+
+## shapeResolver(resolved)
+
+Resolve entity to a shape
+
+## selectEntity(map)
+
+select an entity from a map of entities. By default of both `enum` and `primitive` entities are resolved, it will select the `enum`
+
 ## onEntity
 
 Use `onEntity` to handle when a new entity has been resolved.
