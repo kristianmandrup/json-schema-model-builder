@@ -1,1 +1,1 @@
-module.export = require('./number')
+module.exports = require('./number-type')

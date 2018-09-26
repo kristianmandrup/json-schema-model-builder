@@ -1,4 +1,5 @@
 const {createPropertyEntityResolver} = require('./property-entity')
+// console.log({createPropertyEntityResolver})
 
 const values = {
   number: {
@@ -21,7 +22,7 @@ const values = {
 const config = {}
 
 const create = ({property, config}) => {
-  return new createPropertyEntityResolver({property, config})
+  return createPropertyEntityResolver({property, config})
 }
 
 describe('PropertyEntityResolver', () => {
@@ -133,7 +134,12 @@ describe('PropertyEntityResolver', () => {
   describe('enum: colors', () => {
     describe('primitive: number', () => {
       const name = 'colors'
-      const resolver = create({name, key: name, value: values.enum, config, built})
+      const property = {
+        ...values.enum,
+        name,
+        key: name
+      }
+      const resolver = create({property, config})
 
       describe('resolve', () => {
         const entity = resolver.resolve()

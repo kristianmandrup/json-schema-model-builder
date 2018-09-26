@@ -1,4 +1,4 @@
-const {isString, resolve} = require('./string')
+const {isString, resolve} = require('./string-type')
 
 const strings = {
   invalid: {

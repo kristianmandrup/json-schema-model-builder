@@ -87,10 +87,10 @@ describe('toArray', () => {
     expect(arr).toBeFalsy()
   })
 
-  describe('item type is string primitive', () => {
+  describe.only('item type is string primitive', () => {
     const arr = create('strList')
     const {shape} = arr
-
+    console.log({shape, ref: shape.type.reference})
     describe('name', () => {
       test('property', () => {
         expect(shape.name.property).toEqual('strList')

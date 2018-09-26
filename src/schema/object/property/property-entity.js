@@ -1,4 +1,3 @@
-const {resolvers} = require('./types')
 const {Base} = require('../../../base')
 const {isStringType, isObjectType, isFunctionType, assignAt} = require('../../../utils')
 
@@ -54,10 +53,12 @@ class PropertyEntityResolver extends Base {
     shapeResolver = shapeResolver || this
       .shapeResolver
       .bind(this)
+    const {resolvers} = this
     return Object
       .keys(resolvers)
       .reduce((acc, key) => {
         const resolver = resolvers[key]
+        console.log({resolver, resolvers})
         this.validateResolver(resolver, key)
         const resolved = resolver({property: this.property, config: this.config})
         if (!resolved) 
@@ -67,7 +68,8 @@ class PropertyEntityResolver extends Base {
           : undefined
         // this.log({resolved})
         !isStringType(resultKey) && this.error('resolveMap', `resolved entity has invalid or missing kind ${resolved.kind}`)
-        assignAt(acc, resultKey, shapeResolver(resolved))
+        const value = this.shapeResolver(resolved)
+        assignAt(acc, resultKey, value)
         return acc
       }, {})
   }
@@ -138,3 +140,5 @@ module.exports = {
   createPropertyEntityResolver,
   PropertyEntityResolver
 }
+
+const {resolvers} = require('./types')

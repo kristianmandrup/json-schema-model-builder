@@ -1,1 +1,1 @@
-module.export = require('./enum')
+module.exports = require('./enum-type')

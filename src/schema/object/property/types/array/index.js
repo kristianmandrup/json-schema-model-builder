@@ -1,1 +1,1 @@
-module.export = require('./array')
+module.exports = require('./array-type')

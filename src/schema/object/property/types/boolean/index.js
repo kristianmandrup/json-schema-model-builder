@@ -1,1 +1,1 @@
-module.export = require('./boolean')
+module.exports = require('./boolean-type')

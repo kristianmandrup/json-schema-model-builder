@@ -1,1 +1,1 @@
-module.export = require('./string')
+module.exports = require('./string-type')

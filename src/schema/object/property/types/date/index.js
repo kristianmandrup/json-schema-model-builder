@@ -1,1 +1,1 @@
-module.export = require('./date')
+module.exports = require('./date-type')

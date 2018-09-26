@@ -1,6 +1,5 @@
 // const {BaseType} = require('../base')
 const {PrimitiveType} = require('../primitive')
-const {ItemsResolver} = require('./items')
 // const {isObjectType} = require('../utils')
 
 function isArray(property) {
@@ -15,7 +14,7 @@ function resolve({property, config}) {
 class ArrayType extends PrimitiveType {
   constructor({property, config}) {
     super({property, config})
-    this.items = this.items || []
+    this.items = property.items || []
     this.resolveTypes()
   }
 
@@ -24,7 +23,7 @@ class ArrayType extends PrimitiveType {
   }
 
   get itemsResolver() {
-    return new ItemsResolver({items: this.items})
+    return createItemsResolver({items: this.items, config: this.config})
   }
 
   get typeName() {
@@ -59,6 +58,7 @@ class ArrayType extends PrimitiveType {
     this._typeNames = this._typeNames || this
       .itemsResolver
       .resolve()
+    // console.log({itemTypes: this._typeNames, items: this.items})
     return this._typeNames
   }
 
@@ -106,3 +106,5 @@ module.exports = {
   resolve,
   ArrayType
 }
+
+const {createItemsResolver} = require('./items')

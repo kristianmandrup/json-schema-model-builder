@@ -2,14 +2,16 @@ const {BaseType, PropError} = require('./base-type')
 const {capitalize} = require('./utils')
 
 const types = {
-  array: require('./array/array-type'),
-  boolean: require('./boolean/boolean-type'),
-  number: require('./number/number-type'),
-  object: require('./object/object-type'),
-  string: require('./string/string'),
-  date: require('./date/date-type'),
-  enum: require('./enum/enum-type')
+  array: require('./array'),
+  boolean: require('./boolean'),
+  number: require('./number'),
+  object: require('./object'),
+  string: require('./string'),
+  date: require('./date'),
+  enum: require('./enum')
 }
+
+console.log({types})
 
 const typeNames = [
   'array',

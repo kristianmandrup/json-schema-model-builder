@@ -207,20 +207,28 @@ class $BaseType extends Base {
 
   // used for embedded objects if otherwise unable to determine a good type name
   get fullTypeName() {
-    const name = this
-      .pathNames
-      .join(this.separator.type)
+    const name = this.isMultiPath
+      ? this
+        .pathNames
+        .join(this.separator.type)
+      : this.key
     return camelize(name)
   }
 
   get fullName() {
-    return this
-      .pathNames
-      .join(this.separator.name)
+    return this.isMultiPath
+      ? this
+        .pathNames
+        .join(this.separator.name)
+      : this.key
+  }
+
+  get isMultiPath() {
+    return this.pathNames.length > 1
   }
 
   get pathNames() {
-    return [this.owner.name, this.key]
+    return [this.owner.name, this.key].filter(item => !!item)
   }
 
   get separator() {

@@ -1,15 +1,24 @@
 const {createPropertyEntityResolver} = require('../../../property-entity')
 const {Base} = require('../../../../../../base')
+const {isFunctionType} = require('../../utils')
 
 const createItemsResolver = ({items, config}) => {
   return new ItemsResolver({items, config})
 }
 
 class ItemsResolver extends Base {
-  constructor({items, config}) {
+  constructor({
+    items,
+    config = {}
+  }) {
     super(config)
     this.items = items
     this.config = config
+    this.createPropertyEntityResolver = this.getCreatePropertyEntityResolver(config)
+  }
+
+  getCreatePropertyEntityResolver(config) {
+    return (config.factories || {}).createPropertyEntityResolver || createPropertyEntityResolver
   }
 
   resolve() {
@@ -23,7 +32,12 @@ class ItemsResolver extends Base {
   }
 
   typeResolver(item) {
-    return createPropertyEntityResolver({property: item, config: this.config}).resolve()
+    if (!isFunctionType(this.createPropertyEntityResolver)) {
+      this.error('typeResolver', 'Missing createPropertyEntityResolver (pass in config factories map)')
+    }
+    return this
+      .createPropertyEntityResolver({property: item, config: this.config})
+      .resolve()
   }
 }
 

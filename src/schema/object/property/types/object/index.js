@@ -1,1 +1,1 @@
-module.export = require('./object')
+module.exports = require('./object-type')
