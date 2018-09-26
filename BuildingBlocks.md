@@ -4,64 +4,83 @@ This project contains basic building blocks that you can further customize to su
 
 Use or extends any of the following classes available to build and customize your own infrastructure.
 
+## Dispatcher
+
+See [Dispatcher](./dispatcher/Dispatcher.md)
+
+## State
+
+See [State](./state/State.md)
+
+## Builder
+
+See [Builder](./builder/Builder.md)
+
+## Schema resolvers
+
+The following lays out the main building blocks for parsing a JSON schema to extract nodes and build a model from it.
+
 ## Schema
 
-Resolves a full schema, including `properties` and `definitions`
+[Schema](./schema/Schema.md) resolves a full schema, including `properties` and `definitions`
 
 ## ObjectResolver
 
-Resolves the properties for an `object` (including `schema` and `definition`).
+[ObjectResolver](./schema/object/ObjectResolver.md) resolves the properties for an `object` (including `schema` and `definition`).
 
 ## PropertiesResolver
 
-Iterates through the properties map of an `object` and resolve each entry using a `PropertyResolver`.
+[PropertiesResolver](./schema/object/PropertiesResolver.md) iterates through the properties map of an `object` and resolve each entry using a `PropertyResolver`.
 
 ## PropertyEntityResolver
 
-Used to resolve a property value of an object or schema to a target `entity`.
+[PropertyEntityResolver](./schema/object/property/PropertyEntityResolver.md) resolves a property value of an object or schema to a target `entity`.
+
 An `entity` has a `kind` (such as `primitive`, `enum`, `type`) and a `shape` with information.
 
-Please note that by default it uses all the resolves exported in `types/index.js`, however you can pass your own custom map of `resolvers` via `config` object (ie. via `config.resolvers`)
+Please note that by default the resolver uses all the resolves exported in `types/index.js`, however you can pass your own custom map of `resolvers` via `config` object (ie. via `config.resolvers`)
 
-## Primitives
+## Property Types
 
 The following classes can be used to control how individual types JSON schema property types are resolved.
 
+[PropertyTypes](./schema/object/property/types/PropertyTypes.md)
+
 ### StringType
 
-Resolve type information for a `string` property
+[StringType](./schema/object/property/types/StringType.md) resolves type information for a `string` property
 
 ### BooleanType
 
-Resolve type information for a `boolean` property
+[BooleanType](./schema/object/property/types/BooleanType.md) resolves type information for a `boolean` property
 
 ### DateType
 
-Resolve type information for a `date` property (string with format: `date-time`)
+[DateType](./schema/object/property/types/DateType.md) resolves type information for a `date` property (string with format: `date-time`)
 
 ### EnumType
 
-Resolve type information for an `enum` property (ie. any property with `enum` attribute)
+[EnumType](./schema/object/property/types/EnumType.md) resolves type information for an `enum` property (ie. any property with `enum` attribute)
 
 ### ObjectType
 
-Resolve type information for an `object` property
+[ObjectType](./schema/object/property/types/ObjectType.md) resolves type information for an `object` property
 
 #### ObjectTypeNameResolver
 
-Resolves object type name using different strategies
+[ObjectTypeNameResolver](./schema/object/property/types/ObjectTypeNameResolver.md) resolves object type name using different strategies
 
 ### ArrayType
 
-Resolve type information for an `array` property
+[ArrayType](./schema/object/property/types/ArrayType.md) resolves type information for an `array` property
 
 #### ItemsResolver
 
-Resolves types for an array `items` list
+[ItemsResolver](./schema/object/property/types/ItemsResolver.md) resolves types for an array `items` list
 
 ## DefinitionRefResolver
 
-Resolves a definition reference for `$ref` by looking up the reference in rhe schema `definitions` map
+[DefinitionRefResolver](./schema/object/property/types/DefinitionRefResolver.md) resolves a definition reference for `$ref` by looking up the reference in rhe schema `definitions` map
 
 ## Factories
 

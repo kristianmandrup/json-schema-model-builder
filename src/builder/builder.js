@@ -7,8 +7,9 @@ const createBuilder = ({state, schema, config}) => {
   return new Builder({state, schema, config})
 }
 
-class Builder {
+class Builder extends Base {
   constructor({state, schema, config}) {
+    super(config)
     this.state = state || new State()
     this.schema = schema || {}
     this.config = config || {}
