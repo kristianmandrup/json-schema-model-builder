@@ -1,4 +1,5 @@
 const {ItemsResolver} = require('./items')
+const {arrays} = require('../data')
 
 describe('ItemsResolver', () => {
   const strItem = {
@@ -46,6 +47,26 @@ describe('ItemsResolver', () => {
 
     test('resolves', () => {
       expect(resolved).toEqual(['String', 'Int'])
+    })
+  })
+
+  describe('array with an integer enum type', () => {
+    const {numberOfChildren} = arrays
+    const {items} = numberOfChildren
+    const resolver = new ItemsResolver({items, config})
+    const numericEnum = items[0]
+    describe('resolveItem', () => {
+      const resolved = resolver.resolveItem(numericEnum)
+      test('single enum type resolved', () => {
+        expect(resolved).toEqual('Enum')
+      })
+    })
+
+    describe('resolve', () => {
+      const resolved = resolver.resolve()
+      test('single enum type resolved', () => {
+        expect(resolved).toEqual('Enum')
+      })
     })
   })
 })

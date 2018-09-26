@@ -99,6 +99,7 @@ class ObjectResolver extends Base {
       },
       properties: this.properties
     }
+    console.log(object)
     const resolver = createPropertiesResolver({object, config: this.config})
     return resolver.resolve()
   }

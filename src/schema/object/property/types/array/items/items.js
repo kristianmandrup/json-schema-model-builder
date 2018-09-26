@@ -38,7 +38,7 @@ class ItemsResolver extends Base {
     const types = this
       .createPropertyEntityResolver({property: item, config: this.config})
       .resolveTypes()
-    types.length > 1 && this.error('typeResolver', 'should only resolve to a single type', types)
+    types.length > 1 && this.error('typeResolver', 'a single item should only resolve to a single type', {item, types})
     return types[0]
   }
 }
