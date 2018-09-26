@@ -1,6 +1,6 @@
 # Schema resolver
 
-Responsible for resolving a full schema
+Responsible for resolving a full schema, including `properties` and `definitions`
 
 ## resolve
 

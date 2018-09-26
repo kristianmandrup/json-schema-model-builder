@@ -4,14 +4,14 @@ const {camelize} = require('../utils')
 const {Base} = require('../../../../base')
 
 const createDefinitionRefResolver = ({reference, schema, config}) => {
-  return new DefinitionRef({reference, schema, config})
+  return new DefinitionRefResolver({reference, schema, config})
 }
 
 function stringify(obj) {
   return JSON.stringify(obj, null, 2)
 }
 
-class DefinitionRef extends Base {
+class DefinitionRefResolver extends Base {
   constructor({reference, schema, config}) {
     super(config)
     this.reference = reference
@@ -68,5 +68,5 @@ class DefinitionRef extends Base {
 
 module.exports = {
   createDefinitionRefResolver,
-  DefinitionRef
+  DefinitionRefResolver
 }

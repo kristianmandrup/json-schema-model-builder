@@ -1,18 +1,30 @@
 # Property Types
 
-Property types in most contexts can roughly be categorized into the following
+Property types are categorized into the following kinds by default:
 
 - `primitive` (string, number, boolean, ...)
-- `class` (type, model, entity etc.)
-- `enum`
+- `type` (type, model, class, entity etc.)
+- `enum` (constant enumeration of valid assignable values)
+
+This is set as the `kind` for any entity.
 
 ## Type resolvers
 
-- [Base](./Base.md)
-- [String](./string/String.md)
-- [Boolean](./boolean/Boolean.md)
-- [Number](./number/Number.md)
-- [Date](./date/Date.md)
-- [Enum](./enum/Enum.md)
-- [Object](./object/Object.md)
-- [Array](./array/Array.md)
+- [BaseType](./Base.md)
+- Primitive (base class)
+
+### Primitive
+
+- [StringType](./string/String.md)
+- [BooleanType](./boolean/Boolean.md)
+- [NumberType](./number/Number.md)
+- [DateType](./date/Date.md)
+- [ArrayType](./array/Array.md)
+
+### Enum
+
+- [EnumType](./enum/Enum.md)
+
+### Type
+
+- [ObjectType](./object/Object.md)

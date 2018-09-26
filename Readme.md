@@ -5,7 +5,9 @@ Infrastructure components to easily build models directly from JSON Schema
 ## Status
 
 Under development, but mostly complete. Use the classes as a base for your own infrastructure.
-Check the tests and markdown files (for each file) for in-depth API documentation.
+See [Building Blocks](./BuildingBlocks.md) for more details
+
+Please check the tests and markdown `*.md` documentation files for in-depth API documentation.
 
 ## Quick start
 
