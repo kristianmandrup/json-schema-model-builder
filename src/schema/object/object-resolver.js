@@ -1,29 +1,32 @@
 const {Base} = require('../../base')
-const {camelize} = require('./utils')
-const {createPropertiesResolver} = require('./properties')
+const {camelize, isObjectType} = require('./utils')
+const {createPropertiesResolver} = require('./properties-resolver')
 
-const createSchemaObject = ({schema, value, config, opts}) => {
-  return new SchemaObject({schema, value, config, opts})
+const createObjectResolver = ({schema, value, config, opts}) => {
+  return new ObjectResolver({schema, value, config, opts})
 }
 
 const resolve = ({schema, value, config, opts}) => {
-  return createSchemaObject({schema, value, config, opts}).resolve()
+  return createObjectResolver({schema, value, config, opts}).resolve()
 }
 
-class SchemaObject extends Base {
-  constructor({schema, value, config, opts}) {
-    this.schema = schema
+class ObjectResolver extends Base {
+  constructor({object, config, opts}) {
+    this.object = object
     this.value = value
-    const $schema = schema || value
     this.config = config
     this.opts = opts || {}
-    this.type = $schema.type
-    this.properties = $schema.properties
-    this.required = $schema.required || []
-    this.definitions = $schema.definitions
+
+    this.schema = opts.schema
+
+    const {type, properties, required, definitions} = schema
+    this.type = type
+    this.properties = properties
+    this.required = required || []
+    this.definitions = definitions || {}
 
     if (this.isSchema) {
-      this.config.$schemaRef = $schema
+      this.config.$schemaRef = object
     }
   }
 
@@ -34,7 +37,7 @@ class SchemaObject extends Base {
   }
 
   get hasPropertiesObject() {
-    return utils.isObjectType(this.properties)
+    return isObjectType(this.properties)
   }
 
   get isObject() {
@@ -42,7 +45,7 @@ class SchemaObject extends Base {
   }
 
   validateType() {
-    !this.isObject && this.error('schema', 'must have type: object')
+    !this.isObject && this.error(this.schemaType, 'must have type: object')
     return true
   }
 
@@ -61,7 +64,9 @@ class SchemaObject extends Base {
     const name = camelize(schema.title || schema.name)
     this.normalize()
     const object = {
-      ownerName: name,
+      owner: {
+        name: name
+      },
       properties: this.properties
     }
     const resolver = createPropertiesResolver({object, config})
@@ -79,7 +84,7 @@ class SchemaObject extends Base {
   }
 
   get isSchema() {
-    return !this.value
+    return this.schema
   }
 
   normalizeProps() {
@@ -101,6 +106,6 @@ class SchemaObject extends Base {
 
 module.exports = {
   resolve,
-  createSchemaObject,
-  SchemaObject
+  createObjectResolver,
+  ObjectResolver
 }

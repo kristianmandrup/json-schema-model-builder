@@ -17,7 +17,9 @@ function resolve({property, config}) {
 class ObjectType extends BaseType {
   constructor(property, config) {
     super(property, config)
-    this.properties = this.value.properties
+    const {properties, typeName} = this.property
+    this.properties = properties
+    this.typeName = typeName
   }
 
   get shape() {

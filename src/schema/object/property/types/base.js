@@ -146,7 +146,10 @@ class $BaseType extends Base {
       config: this.config,
       // the full property received as input
       property: this.property,
-      name: this.name,
+      name: {
+        property: this.name,
+        full: this.fullName
+      },
       // custom meta data
       meta: this.meta,
       // various type information

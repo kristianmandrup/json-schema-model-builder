@@ -1,4 +1,4 @@
-const {createPropertiesResolver} = require('./properties')
+const {createPropertiesResolver} = require('./properties-resolver')
 const {schemas} = require('../data');
 
 const create = ({object, config}) => {

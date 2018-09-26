@@ -1,5 +1,12 @@
 const {createObjectTypeNameResolver} = require('./type-name')
 
+const shape = {
+  name: {},
+  type: {}
+}
+
+const properties = {}
+
 const objects = {
   invalid: {
     "name": {
@@ -7,24 +14,73 @@ const objects = {
     }
   },
   typeOnly: {
-    "type": "object"
+    "type": "object",
+    shape: {
+      name: {
+        full: 'x'
+      }
+    },
+    defaultType: 'Any',
+    properties: {}
   },
-  key: {
+  keyOnly: {
     "key": "person",
-    "type": "object"
+    "type": "object",
+    defaultType: 'Any',
+    shape,
+    properties
   },
-  keyAndOwner: {
+  withTypeName: {
+    "typeName": "Account",
+    "type": "object",
+    owner: {},
+    defaultType: 'Any',
+    shape,
+    properties
+
+  },
+  keyOwner: {
     "key": "account",
-    "ownerName": "person",
-    "type": "object"
+    "owner": {
+      name: "person"
+    },
+    "type": "object",
+    defaultType: 'Any',
+    shape: {
+      type: {
+        fullName: 'PersonAccount'
+      }
+    },
+    properties
+  },
+  keyOwnerAndTypeName: {
+    "key": "account",
+    "owner": {
+      name: "person"
+    },
+    "typeName": "Account",
+    "type": "object",
+    defaultType: 'Any',
+    shape,
+    properties
   },
   named: {
     "type": "object",
-    "name": "car"
+    "name": "car",
+    defaultType: 'Any',
+    shape,
+    properties
   },
   ref: {
     "type": "object",
-    "name": "#/definitions/SportsCar"
+    "name": "#/definitions/SportsCar",
+    defaultType: 'Any',
+    shape: {
+      type: {
+        resolved: 'SportsCar'
+      }
+    },
+    properties
   }
 }
 
@@ -35,44 +91,52 @@ const create = (name, config = {}) => {
 describe('ObjectTypeNameResolver', () => {
   describe('invalid', () => {})
 
-  describe('type only', () => {
+  describe('type resolved', () => {
     const config = {}
     const resolver = create('typeOnly', config)
-    test('defaults to Object', () => {
-      expect(resolver.typeName).toEqual('Object')
+    test('uses defaultType', () => {
+      expect(resolver.typeName).toEqual('Any')
     })
   })
 
   describe('key only', () => {
     const config = {}
-    const resolver = create('key', config)
-    test('uses key', () => {
-      expect(resolver.typeName).toEqual('Person')
+    const resolver = create('keyOnly', config)
+    test('uses defaultType', () => {
+      expect(resolver.typeName).toEqual('Any')
     })
   })
 
-  describe('key and owner', () => {
+  describe('key and owner name', () => {
     const config = {}
-    const resolver = create('keyAndOwner', config)
-    test('uses full name', () => {
+    const resolver = create('keyOwner', config)
+    test('uses full type name from key and owner', () => {
       expect(resolver.typeName).toEqual('PersonAccount')
+    })
+  })
+
+  describe('key, owner and typeName', () => {
+    const config = {}
+    const resolver = create('keyOwnerAndTypeName', config)
+    test('uses typeName: Account', () => {
+      expect(resolver.typeName).toEqual('Account')
     })
   })
 
   describe('named', () => {
     const resolver = create('named')
-    test('camelizes name', () => {
-      expect(resolver.typeName).toEqual('Car')
+    test('uses defaultType', () => {
+      expect(resolver.typeName).toEqual('Any')
     })
   })
 
-  describe.skip('definition reference', () => {
+  describe('definition reference', () => {
     const config = {
       definitions: {}
     }
     const resolver = create('ref', config)
 
-    test('uses ref name', () => {
+    test('uses ref name resolved', () => {
       expect(resolver.typeName).toEqual('SportsCar')
     })
   })

@@ -11,7 +11,6 @@ class PropertyEntityResolver extends Base {
     super(config)
     this.property = property
     this.config = config
-    // this.state = config.state
     this.dispatcher = config.dispatcher
     this.resolvers = config.resolvers || resolvers
   }

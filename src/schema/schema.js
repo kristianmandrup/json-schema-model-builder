@@ -1,5 +1,6 @@
-const {resolve} = require('./object')
 const {Base} = require('../base')
+const {object} = require('./object')
+const {resolve} = object
 
 const createSchema = ({schema, config}) => {
   return new Schema({schema, config})
@@ -12,7 +13,13 @@ class Schema extends Base {
   }
 
   resolve() {
-    resolve({schema: this.schema, config: this.config})
+    resolve({
+      object: this.schema,
+      config: this.config,
+      opts: {
+        schema: true
+      }
+    })
   }
 }
 

@@ -1,6 +1,6 @@
-const {resolve} = require('./object')
+const {resolve, isObject} = require('./object')
 
-const objs = {
+const objects = {
   invalid: {
     type: 'number'
   },
@@ -25,16 +25,41 @@ const objs = {
 const config = {}
 
 const createParams = (key, value, config = {}) => {
-  return {key, value, type: value.type, config}
+  const property = {
+    key,
+    ...value
+  }
+  return {property, config}
 }
 
 const $create = (key, value, config) => {
-  return resolve(createParams(key, value, config))
+  const params = createParams(key, value, config)
+  return resolve(params)
 }
 
 const create = (key, config) => {
-  return $create(key, objs[key], config)
+  const value = objects[key]
+  if (!value) {
+    throw new Error(`no such object entry: ${key}`)
+  }
+  return $create(key, value, config)
 }
+
+describe('isObject', () => {
+  describe('type: object', () => {
+    const check = isObject({type: 'object'})
+    test('is valid', () => {
+      expect(check).toBe(true)
+    })
+  })
+
+  describe('type: string', () => {
+    const check = isObject({type: 'string'})
+    test('is invalid', () => {
+      expect(check).toBe(false)
+    })
+  })
+})
 
 describe('resolve', () => {
   test('invalid type', () => {
@@ -53,13 +78,13 @@ describe('resolve', () => {
   })
 
   describe('nested', () => {
-    test('valid type with type-ref', () => {
+    test('valid type with embedded object using typeName', () => {
       const obj = create('account')
       const {shape} = obj
       expect(shape.valid).toBe(true)
-      expect(shape.is).toEqual('type')
-      expect(shape.refType).toEqual('embedded')
-      expect(shape.resolvedTypeName).toEqual('Account')
+      expect(shape.kind).toEqual('type')
+      expect(shape.type.refType).toEqual('embedded')
+      expect(shape.type.resolved).toEqual('Account')
     })
   })
 
@@ -68,9 +93,9 @@ describe('resolve', () => {
       const obj = create('referenced')
       const {shape} = obj
       expect(shape.valid).toBe(true)
-      expect(shape.is).toEqual('type')
-      expect(shape.refType).toEqual('reference')
-      expect(shape.resolvedTypeName).toEqual('Car')
+      expect(shape.kind).toEqual('type')
+      expect(shape.type.refType).toEqual('reference')
+      expect(shape.type.resolved).toEqual('Car')
     })
   })
 })
