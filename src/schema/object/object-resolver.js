@@ -1,25 +1,50 @@
 const {Base} = require('../../base')
-const {camelize, isObjectType} = require('./utils')
+const {camelize, isStringType, isObjectType} = require('./utils')
 const {createPropertiesResolver} = require('./properties-resolver')
 
-const createObjectResolver = ({schema, value, config, opts}) => {
-  return new ObjectResolver({schema, value, config, opts})
+const createObjectResolver = ({object, config, opts}) => {
+  return new ObjectResolver({object, config, opts})
 }
 
-const resolve = ({schema, value, config, opts}) => {
-  return createObjectResolver({schema, value, config, opts}).resolve()
+const resolve = ({
+  schema,
+  object,
+  config,
+  opts = {}
+}) => {
+  const $object = object || schema
+  const resolver = createObjectResolver({
+    object: $object,
+    config,
+    opts: {
+      schema: !!schema,
+      ...opts
+    }
+  })
+
+  return resolver.resolve()
 }
 
 class ObjectResolver extends Base {
   constructor({object, config, opts}) {
+    super(config, opts)
     this.object = object
-    this.value = value
     this.config = config
     this.opts = opts || {}
 
     this.schema = opts.schema
-
-    const {type, properties, required, definitions} = schema
+    const {
+      title,
+      name,
+      type,
+      key,
+      properties,
+      required,
+      definitions
+    } = object
+    this.title = title
+    this.name = name
+    this.key = key
     this.type = type
     this.properties = properties
     this.required = required || []
@@ -58,10 +83,15 @@ class ObjectResolver extends Base {
     return this.validateProperties() && this.validateType()
   }
 
+  validateName(name) {
+    !isStringType(name) && this.error('resolve', `unable to determine schema name or object owner name: ${name}`)
+  }
+
   resolve() {
-    const schema = this.$schema
     this.validate()
-    const name = camelize(schema.title || schema.name)
+    const schemaName = this.title || this.name
+    const name = camelize(schemaName || this.key)
+    this.validateName(name)
     this.normalize()
     const object = {
       owner: {
@@ -69,12 +99,12 @@ class ObjectResolver extends Base {
       },
       properties: this.properties
     }
-    const resolver = createPropertiesResolver({object, config})
+    const resolver = createPropertiesResolver({object, config: this.config})
     return resolver.resolve()
   }
 
   normalize() {
-    this.shouldNormalize() && this.normalizeProps()
+    this.shouldNormalize && this.normalizeProps()
   }
 
   // if schema is received via value, we must assume it comes from a recursive

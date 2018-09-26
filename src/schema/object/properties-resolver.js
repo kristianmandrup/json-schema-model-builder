@@ -8,8 +8,9 @@ const createPropertiesResolver = ({object, config}) => {
 
 class PropertiesResolver extends Base {
   constructor({object, config}) {
-    const {ownerName, properties} = object
-    this.ownerName = ownerName
+    super(config)
+    const {properties, owner} = object
+    this.ownerName = (owner || {}).name
     this.properties = properties
     this.config = config
     this.validate()

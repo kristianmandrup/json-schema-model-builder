@@ -1,14 +1,14 @@
-const {createSchemaObject} = require('./object')
+const {createObjectResolver, resolve} = require('./object-resolver')
 const {schemas} = require('../data');
 
-const create = ({schema, value, config, opts}) => {
-  return new createSchemaObject({schema, value, config, opts})
+const create = ({object, schema, config, opts}) => {
+  return resolve({object, schema, config, opts})
 }
 
-describe('SchemaObject', () => {
+describe('ObjectResolver', () => {
   const schema = schemas.valid
 
-  describe('schema', () => {
+  describe('create and resolve', () => {
     const config = {}
     const obj = create({schema, config})
 
@@ -48,7 +48,7 @@ describe('SchemaObject', () => {
   })
 
   describe('object', () => {
-    const value = {
+    const object = {
       "description": "Car owned",
       "type": "object",
       "properties": {
@@ -60,7 +60,7 @@ describe('SchemaObject', () => {
     const config = {
       $schemaRef: schema
     }
-    const obj = create({value, config})
+    const obj = create({object, config})
 
     test('type', () => {
       expect(obj.type).toEqual('object')
@@ -83,7 +83,7 @@ describe('SchemaObject', () => {
 
     test('resolve', () => {
       const resolved = obj.resolve()
-      console.log({resolved})
+      // console.log({resolved})
       expect(resolved).toBeTruthy()
     })
 
