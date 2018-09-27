@@ -25,12 +25,16 @@ class $BaseType extends Base {
       name,
       required,
       key,
-      $ref
+      $ref,
+      refType
     } = property
     owner = owner || {}
     this.property = property
     this.owner = owner
     this.key = key
+    this.refType = refType === 'reference'
+      ? 'reference'
+      : 'embedded'
     this.name = {
       key: key,
       property: name || key,
@@ -240,12 +244,6 @@ class $BaseType extends Base {
 
   hasTypeNames() {
     return this.typeNames && this.typeNames.length > 0
-  }
-
-  get refType() {
-    return this.reference
-      ? 'reference'
-      : 'embedded'
   }
 
   get typeNames() {

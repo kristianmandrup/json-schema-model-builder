@@ -245,11 +245,12 @@ describe.only('BaseType', () => {
 
   describe('refType', () => {
     test('reference', () => {
+      base.refType = 'reference'
       expect(base.refType).toEqual('reference')
     })
 
     test('embedded', () => {
-      base.reference = undefined
+      base.refType = 'embedded'
       expect(base.refType).toEqual('embedded')
     })
   })

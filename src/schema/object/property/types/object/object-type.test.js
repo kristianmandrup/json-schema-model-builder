@@ -11,6 +11,7 @@ const objects = {
     "description": "Bank account",
     type: 'object',
     typeName: 'Account',
+    refType: 'embedded',
     properties: {
       "name": {
         "type": "string"
@@ -19,6 +20,7 @@ const objects = {
   },
   referenced: {
     type: 'object',
+    refType: 'reference',
     properties: {},
     "$ref": "#/definitions/car"
   }
@@ -95,8 +97,7 @@ describe('resolve', () => {
         test('kind is type', () => {
           expect(shape.type.kind).toEqual('type')
         })
-        test('embedded reference type', () => {
-
+        test('embedded type', () => {
           expect(shape.type.refType).toEqual('embedded')
         })
         test('resolved to Account', () => {

@@ -8,6 +8,7 @@ const arrays = {
     "description": "Bank accounts",
     "type": "array",
     name: 'accounts',
+    // refType: 'embedded',
     "items": [
       {
         type: 'object',
@@ -23,6 +24,7 @@ const arrays = {
   strList: {
     "type": "array",
     name: 'accounts',
+    // refType: 'embedded',
     "items": [
       {
         type: 'string',
@@ -34,6 +36,7 @@ const arrays = {
     "description": "Bank accounts",
     "type": "array",
     "name": "accounts",
+    refType: 'reference',
     "items": [
       {
         "$ref": "#/definitions/account"
