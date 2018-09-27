@@ -46,3 +46,19 @@ resolve() {
 ## Properties Resolver
 
 See [Properties Resolver](./Properties.md)
+
+## API
+
+## addFingerprint
+
+Creates a `fingerprint` and adds it as an entry to the cache
+
+## createFingerprint
+
+Creates a `fingerprint` (with MD5 `hash`)
+
+## addToCache
+
+Adds the `property` object definition in the `cache` (on `config`) using the `hash` as the map key.
+
+... TODO

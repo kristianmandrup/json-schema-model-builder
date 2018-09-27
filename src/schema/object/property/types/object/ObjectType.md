@@ -64,21 +64,40 @@ get resolveTypeName() {
 
 ## resolveNested
 
-Resolves object by recursion if it is a valid object (ie. has `properties`)
+Resolves object by recursion.
 
 ```js
 resolveNested() {
-  if (!this.valid)
+  if (!this.shouldResolveNested)
     return this
-  // TODO: use ObjectResolver
-  // const nested = new Nested({value: this.value})
-  nested.resolve()
+
+  const owner = {
+    name: this.key
+  }
+  const object = {
+    ...this.property,
+    owner
+  }
+  const objResolver = createObjectResolver({object, config: this.config})
+  objResolver.resolve()
   return this
 }
 ```
 
 ### TODO: Nested (recursive) object resolve strategy
 
-As the object is recursively resolved. As it recurses down the graph, it should make a `dispatch` of everyobject (ie. `type`) encountered. It also needs to maintain a list of visited nodes in order to detect cyclic traversal and abort those continuation of branches to avoid infinite loops!
+As the object is recursively resolved. As it recurses down the graph, it should make a `dispatch` of every object (ie. `type`) encountered.
 
-By doing this traversal we can also determine which object types are actively being references and used and which are unused.
+It also needs to maintain a list of visited/cached nodes in order to detect cyclic traversal and abort continuation of those branches to avoid infinite loops! This is however rarely relevant within a schema itself, unless defintions reference each other in complex ways. It is likely more an issue with multiple schemas referencing each other.
+
+## addFingerprint
+
+Creates a `fingerprint` and adds it as an entry to the cache
+
+## createFingerprint
+
+Creates a `fingerprint` (with MD5 `hash`)
+
+## addToCache
+
+Adds the `property` object definition in the `cache` (on `config`) using the `hash` as the map key.
