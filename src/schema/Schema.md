@@ -2,14 +2,31 @@
 
 Responsible for resolving a full schema, including `properties` and `definitions`
 
-## resolve
+## API
 
-Resolves the schema using object resolver
+## exposed
+
+### createSchema({schema, config})
+
+Creates a `Schema` instance used to resolve a schema object
+
+## methods
+
+## .resolve()
+
+Resolves a `schema` (by default delegating to `resolve` of `ObjectResolver`)
 
 ```js
-  resolve() {
-    resolve({schema: this.schema, config: this.config})
-  }
+resolve() {
+  // resolves both properties AND definitions
+  resolveSchema({
+    object: this.schema,
+    config: this.config,
+    opts: {
+      schema: true
+    }
+  })
+}
 ```
 
 ## Object resolver

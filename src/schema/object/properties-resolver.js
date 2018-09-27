@@ -21,7 +21,7 @@ class PropertiesResolver extends Base {
     return true
   }
 
-  resolve(force) {
+  resolve(force = false) {
     this.resolved = (this.resolved && !force) || Object
       .keys(this.properties)
       .reduce(this.reduceProp.bind(this), {})

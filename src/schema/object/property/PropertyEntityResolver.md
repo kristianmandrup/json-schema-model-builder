@@ -2,9 +2,36 @@
 
 The `PropertyEntityResolver` is used to resolve a property value of an object or schema to a target `Entity`. The entity has a `shape` with information.
 
-## resolve
+## API
 
-Used to resolve a `property`. Iterates through all of the `resolvers` and tries to call `resolver.resolve(property)` on each. The results are collected in a `map`.
+## exposed
+
+### createPropertyEntityResolver({property, config})
+
+Creates a `PropertyEntityResolver` instance that can resolve a `property` to an `entity`
+
+## methods
+
+### .isValidProperty
+
+Whether the `property` is valid (and should be resolved)
+
+### .isValidResolvers
+
+Whether the `resolvers` available are valid
+
+### .validateResolver(resolver, key)
+
+Whether a particular `resolver` is valid (must be a `function`)
+
+### .resolveMap(resolveShape)
+
+Resolves the `property` to a map of entities. The `resolveShape` argument can be passed to customize how each entity is "shaped".
+
+### .resolve()
+
+Resolves a `property` to an `entity` calls `onEntity(entity)`.
+Iterates through all of the `resolvers` and tries to call `resolver.resolve(property)` on each. The results are collected in a `map`.
 
 By default the property is set up to collect an entity as either:
 
@@ -12,25 +39,30 @@ By default the property is set up to collect an entity as either:
 - `object`
 - `enum`
 
-The resolver decides which entity it is and calls `onEntity(entity)` (by default to dispatch the an event with the entity). Finally `resolve` returns the resolved entity.
+An `entity` is selected from the map of entities ant then `onEntity(entity)` is called, which by default will `dispatch` an `event` with the `entity`.
 
-## resolveType
+Finally the resolved `entity` is returned.
 
-Resolves entities to a single type
+### .resolveType()
 
-## entityType(entity)
+Resolves a `property` to an `entity`
 
-Extracts the `type` for an entity
+### .resolveToEntity()
 
-## resolveShape(resolved)
+Resolves a `property` to an `entity` map then selects one entity
 
-Resolve resolved property to a shape
+### .entityType(entity)
 
-## selectEntity(map)
+Extract the `type` from an entity
 
-select an entity from a map of entities. By default of both `enum` and `primitive` entities are resolved, it will select the `enum`
+### .resolveShape(propType)
 
-## onEntity
+Resolves the "shape" from a property type instance (such as `StringType`).
+By default using `propType.shape`
+
+### selectEntity(map)
+
+### onEntity
 
 Use `onEntity` to handle when a new entity has been resolved.
 By default the entity is dispatched to the dispatcher which then adds the entity to the `state` via `add(entity, type)`

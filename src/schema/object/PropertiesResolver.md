@@ -37,3 +37,29 @@ prepareProperty(key) {
 ## Properties Entity Resolver
 
 See [Properties Entity Resolver](./property/PropertyEntityResolver.md)
+
+## API
+
+## exposed
+
+### createPropertiesResolver({object, config})
+
+Create a `PropertiesResolver` instance
+
+## methods
+
+### .resolve(force = false)
+
+Resolve properties
+
+### .groupByTypes
+
+Group resolved entities by type (ie. `kind`)
+
+### .reduceProp(acc, key)
+
+Reduce a single property
+
+### .prepareProperty(key)
+
+Prepare a property for `resolve`

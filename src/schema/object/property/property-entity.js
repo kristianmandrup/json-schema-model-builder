@@ -73,15 +73,18 @@ class PropertyEntityResolver extends Base {
   }
 
   resolve() {
-    const map = this.resolveMap()
-    const entity = this.selectEntity(map)
+    const entity = this.resolveToEntity()
     this.onEntity(entity)
     return entity
   }
 
-  resolveType() {
+  resolveToEntity() {
     const map = this.resolveMap()
-    const entity = this.selectEntity(map)
+    return this.selectEntity(map)
+  }
+
+  resolveType() {
+    const entity = resolveToEntity()
     return this.entityType(entity)
   }
 

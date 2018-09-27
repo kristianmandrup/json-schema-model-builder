@@ -52,15 +52,15 @@ See [Properties Resolver](./Properties.md)
 
 ### createObjectResolver
 
-creates instance of ObjectResolver
+Creates instance of ObjectResolver
 
 ### resolveSchema
 
-resolves a schema object
+Resolves a schema object
 
 ### resolve
 
-resolves an object or schema object
+Resolves an object or schema object
 
 ## methods
 
@@ -86,15 +86,15 @@ If `object` has `properties`
 
 ### .isObject
 
-If it has `type` of `object`
+Whether it has a `type` of `object`
 
 ### .resolveSchema
 
-resolves a schema object
+Resolves a schema object
 
 ### .resolve
 
-resolves an object
+Resolves an object
 
 ### .resolveCollection
 
@@ -105,6 +105,8 @@ Resolves a specific collection, typically either `properties` or `definitions`
 Normalizes `properties` collection if should be normalized
 
 ### .shouldNormalize
+
+Whether `properties` should be normalized
 
 ### .isSchema
 
