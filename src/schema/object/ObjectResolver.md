@@ -28,9 +28,8 @@ normalize() {
 
 ## Resolve properties
 
-Create an `object` with `properties` and `ownerName` (name of object)
-
-Create a `PropertiesResolver` and use it to resolve the `properties` of the `object`
+- Create an `object` with `properties` and `ownerName` (name of object)
+- Create a `PropertiesResolver` and use it to resolve the `properties` of the `object`
 
 ```js
 resolve() {
@@ -49,16 +48,72 @@ See [Properties Resolver](./Properties.md)
 
 ## API
 
-## addFingerprint
+## Exposed functions
+
+### createObjectResolver
+
+creates instance of ObjectResolver
+
+### resolveSchema
+
+resolves a schema object
+
+### resolve
+
+resolves an object or schema object
+
+## methods
+
+### .addFingerprint
 
 Creates a `fingerprint` and adds it as an entry to the cache
 
-## createFingerprint
+### .createFingerprint
 
 Creates a `fingerprint` (with MD5 `hash`)
 
-## addToCache
+### .addToCache
 
 Adds the `property` object definition in the `cache` (on `config`) using the `hash` as the map key.
 
-... TODO
+### .schemaType
+
+Either `object` or `schema`
+
+### .hasPropertiesObject
+
+If `object` has `properties`
+
+### .isObject
+
+If it has `type` of `object`
+
+### .resolveSchema
+
+resolves a schema object
+
+### .resolve
+
+resolves an object
+
+### .resolveCollection
+
+Resolves a specific collection, typically either `properties` or `definitions`
+
+### .normalize
+
+Normalizes `properties` collection if should be normalized
+
+### .shouldNormalize
+
+### .isSchema
+
+Whether it is a schema object
+
+### .normalizeProps
+
+Normalizes `properties` collection
+
+### .normalizeRequired
+
+Normalizes `required` schema list into property schema object attributes

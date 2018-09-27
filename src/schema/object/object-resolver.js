@@ -200,12 +200,12 @@ class ObjectResolver extends Base {
   }
 
   normalizeRequired(acc, key) {
-    const value = this.properties[key]
+    const property = this.properties[key]
     const isRequired = this
       .required
       .indexOf(key) >= 0
-    value.required = value.required || isRequired
-    acc[key] = value
+    property.required = property.required || isRequired
+    acc[key] = property
     return acc
   }
 }
