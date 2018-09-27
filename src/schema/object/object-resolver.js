@@ -1,6 +1,7 @@
 const {Base} = require('../../base')
 const {camelize, isStringType, isObjectType} = require('./utils')
 const {createPropertiesResolver} = require('./properties-resolver')
+const {Fingerprint} = require('./property/types/object/fingerprint')
 
 const createObjectResolver = ({object, config, opts}) => {
   return new ObjectResolver({object, config, opts})
@@ -60,6 +61,47 @@ class ObjectResolver extends Base {
       this.definitions = object.definitions || {}
       this.config.$schemaRef = object
     }
+    this.addFingerprint()
+  }
+
+  addFingerprint() {
+    this.fingerprint = this.createFingerprint()
+    this.config.cache = this.config.cache || {}
+    this.config.cache[this.hash] = this.object
+  }
+
+  get hash() {
+    return this.fingerprint.hash
+  }
+
+  addFingerprint() {
+    this.fingerprint = this.createFingerprint()
+    this.addToCache()
+  }
+
+  addToCache() {
+    if (this.wasCached) {
+      this.warn('addToCache', 'object was already cached', {object: this.fingerprint})
+      return
+    }
+    this.config.cache = this.config.cache || {}
+    this.config.cache[hash] = this.property
+  }
+
+  get wasCached() {
+    return Boolean(this.cached)
+  }
+
+  get cached() {
+    return this.config.cached[this.hash]
+  }
+
+  get hash() {
+    return fingerprint.hash
+  }
+
+  createFingerprint() {
+    return new Fingerprint({object: this.property, config: this.config})
   }
 
   get schemaType() {

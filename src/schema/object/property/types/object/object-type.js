@@ -1,6 +1,7 @@
 const hash = require('object-hash')
 const {BaseType} = require('../base-type')
 const {createObjectTypeNameResolver} = require('./type-name')
+const {Fingerprint} = require('./fingerprint')
 
 // no reason to test for properties, as we might be using $ref instead
 function isObject(property) {
@@ -25,8 +26,24 @@ class ObjectType extends BaseType {
 
   addFingerprint() {
     this.fingerprint = this.createFingerprint()
-    this.config.visited = this.config.visited || []
-    this.config.cache[fingerprint] = this.property
+    this.addToCache()
+  }
+
+  addToCache() {
+    if (this.wasCached) {
+      this.warn('addToCache', 'object was already cached', {object: this.fingerprint})
+      return
+    }
+    this.config.cache = this.config.cache || {}
+    this.config.cache[hash] = this.property
+  }
+
+  get hash() {
+    return this.fingerprint.hash
+  }
+
+  createFingerprint() {
+    return new Fingerprint({object: this.property, config: this.config})
   }
 
   get shape() {
@@ -63,18 +80,6 @@ class ObjectType extends BaseType {
     }
   }
 
-  get propNames() {
-    return Object.keys(this.properties)
-  }
-
-  get fingerPrintObj() {
-    return {key: this.key, propNames: this.propNames, ownerName: this.owner.name}
-  }
-
-  createFingerprint() {
-    return hash(this.fingerPrintObj)
-  }
-
   resolveTypeName() {
     this.objectTypeNameResolver = createObjectTypeNameResolver({object: this, config: this.config})
     return this
@@ -107,7 +112,7 @@ class ObjectType extends BaseType {
   }
 
   get cached() {
-    return this.config.cached[this.fingerprint]
+    return this.config.cached[this.hash]
   }
 
   resolveNested() {
