@@ -1,3 +1,4 @@
+const hash = require('object-hash')
 const {BaseType} = require('../base-type')
 const {createObjectTypeNameResolver} = require('./type-name')
 
@@ -19,6 +20,13 @@ class ObjectType extends BaseType {
     const {properties, typeName} = this.property
     this.properties = properties
     this.objTypeName = typeName
+    this.addFingerprint()
+  }
+
+  addFingerprint() {
+    this.fingerprint = this.createFingerprint()
+    this.config.visited = this.config.visited || []
+    this.config.cache[fingerprint] = this.property
   }
 
   get shape() {
@@ -55,6 +63,19 @@ class ObjectType extends BaseType {
     }
   }
 
+  get propNames() {
+    return Object.keys(this.properties)
+  }
+
+  createFingerprint() {
+    const obj = {
+      ...this.propNames,
+      ownerName: this.owner.name
+    }
+    console.log('fingerprint', obj)
+    return hash(obj)
+  }
+
   resolveTypeName() {
     this.objectTypeNameResolver = createObjectTypeNameResolver({object: this, config: this.config})
     return this
@@ -82,14 +103,32 @@ class ObjectType extends BaseType {
     return true
   }
 
-  // TODO: use object-resolver, passing schema: false
+  get wasCached() {
+    return Boolean(this.cached)
+  }
+
+  get cached() {
+    return this.config.cached[this.fingerprint]
+  }
+
   resolveNested() {
     if (!this.shouldResolveNested) 
       return this
+
+    const owner = {
+      name: this.key
+    }
+    const object = {
+      ...this.property,
+      owner
+    }
+    const objResolver = createObjectResolver({object, config: this.config})
+    objResolver.resolve()
+    return this
   }
 
   shouldResolveNested() {
-    return this.valid && this.opts.nested
+    return this.valid && this.opts.nested && !this.wasCached
   }
 
   get valid() {
@@ -104,3 +143,5 @@ module.exports = {
   resolve,
   ObjectType
 }
+
+const {createObjectResolver} = require('../../../properties-resolver')

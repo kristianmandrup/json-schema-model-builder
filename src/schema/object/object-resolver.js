@@ -100,9 +100,16 @@ class ObjectResolver extends Base {
     })
   }
 
+  shouldResolve() {
+    return true
+  }
+
   resolve({
     collections = ['properties']
   }) {
+    if (!this.shouldResolve) 
+      return
+
     const map = collections.reduce((acc, name) => {
       acc[name] = this.resolveCollection(name)
       return acc
