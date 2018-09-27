@@ -67,13 +67,12 @@ class ObjectType extends BaseType {
     return Object.keys(this.properties)
   }
 
+  get fingerPrintObj() {
+    return {key: this.key, propNames: this.propNames, ownerName: this.owner.name}
+  }
+
   createFingerprint() {
-    const obj = {
-      ...this.propNames,
-      ownerName: this.owner.name
-    }
-    console.log('fingerprint', obj)
-    return hash(obj)
+    return hash(this.fingerPrintObj)
   }
 
   resolveTypeName() {
