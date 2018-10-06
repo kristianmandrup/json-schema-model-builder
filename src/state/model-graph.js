@@ -14,9 +14,13 @@ class ModelGraph extends Base {
   }
 
   addEdge(from, to, value) {
-    this
+    return this
       .graph
       .ensureEdge(from, to, value)
+  }
+
+  addNode(value) {
+    this.addOrGetNode(value)
   }
 
   addOrGetNode(value) {

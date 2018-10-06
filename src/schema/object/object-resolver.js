@@ -138,7 +138,7 @@ class ObjectResolver extends Base {
 
   resolveSchema() {
     this.resolve({
-      collections = ['properties', 'definitions']
+      collections: ['properties', 'definitions']
     })
   }
 
@@ -146,9 +146,7 @@ class ObjectResolver extends Base {
     return true
   }
 
-  resolve({
-    collections = ['properties']
-  }) {
+  resolve({collections: ['properties']}) {
     if (!this.shouldResolve) 
       return
 
