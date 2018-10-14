@@ -1,5 +1,6 @@
 const {State} = require('./state')
-const {colors, person, graph} = require('./data')
+const {colors, person, car, union} = require('./data')
+const {log} = console
 
 describe('State', () => {
   const state = new State()
@@ -16,9 +17,11 @@ describe('State', () => {
     test('types', () => {
       expect(state.types).toEqual({})
     })
-
   })
+})
 
+describe('State', () => {
+  const state = new State()
   describe('enum', () => {
     describe('add', () => {
       state.add(colors)
@@ -34,16 +37,18 @@ describe('State', () => {
   describe('type', () => {
     describe('add', () => {
       state.add(person)
-
       test('added to map', () => {
         expect(state.has(person.name, 'type')).toBe(true)
       })
     })
   })
 
-  describe.skip('union', () => {
+  describe('union', () => {
+    state.add(union, 'union')
     describe('add', () => {
-      test('added to map', () => {})
+      test('added to map', () => {
+        expect(state.has(union.name, 'union')).toBe(true)
+      })
     })
   })
 })

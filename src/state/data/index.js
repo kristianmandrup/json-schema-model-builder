@@ -12,6 +12,11 @@ const person = {
   }
 }
 
+const union = {
+  name: 'waterbed',
+  types: ['water', 'bed']
+}
+
 const car = {
   name: 'car',
   $type: 'type',
@@ -23,5 +28,6 @@ const car = {
 module.exports = {
   colors,
   person,
-  car
+  car,
+  union
 }

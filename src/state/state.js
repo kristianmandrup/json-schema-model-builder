@@ -1,6 +1,6 @@
 const {Base} = require('../base')
 const {ModelGraph} = require('./model-graph')
-const initial = () => ({enums: {}, types: {}, unions: {}})
+const initialCollections = () => ({enums: {}, types: {}, unions: {}})
 
 const isString = (val) => {
   return typeof val === 'string'
@@ -12,12 +12,13 @@ const createState = ({state, config}) => {
 
 class State extends Base {
   constructor({
-    state = initial(),
+    collections = initialCollections(),
+    graph,
     config = {}
   } = {}) {
     super(config)
-    this.state = state
-    this.state.graph = this.createModelGraph()
+    this.collections = collections
+    this.graph = graph || this.createModelGraph()
   }
 
   createModelGraph() {
@@ -43,30 +44,40 @@ class State extends Base {
   }
 
   get types() {
-    return this.state.types
+    return this.collections.types
   }
 
   get enums() {
-    return this.state.enums
+    return this.collections.enums
+  }
+
+  get unions() {
+    return this.collections.unions
   }
 
   get(key, type) {
-    return this.mapFor(type)[key]
+    const typeMap = this.mapFor(type)
+    return typeMap[key]
+  }
+
+  collection(type) {
+    return this.mapFor(type)
   }
 
   mapFor(type) {
     const colName = type + 's'
-    if (!this.state[colName]) {
+    if (!this.collections[colName]) {
       this.error(`Invalid map type: ${type}`)
     }
-    return this.state[colName]
+    return this.collections[colName]
   }
 
   has(value, type) {
     const name = isString(value)
       ? value
       : value.name
-    return this.mapFor(type)[name]
+    const typeMap = this.mapFor(type)
+    return Boolean(typeMap[name])
   }
 
   add(obj, type) {
@@ -108,7 +119,7 @@ class State extends Base {
   }
 
   // TODO: also try to add/ensure node in graph
-  setEntry({map, value, type}) {
+  setEntry({map, value, name}) {
     map[name] = value
     return this
   }
