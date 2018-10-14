@@ -2,9 +2,7 @@ const {Base} = require('../base')
 const {ModelGraph} = require('./model-graph')
 const initialCollections = () => ({enums: {}, types: {}, unions: {}})
 
-const isString = (val) => {
-  return typeof val === 'string'
-}
+const {isStringType} = require('../utils')
 
 const createState = ({state, config}) => {
   return new State({state, config})
@@ -73,7 +71,7 @@ class State extends Base {
   }
 
   has(value, type) {
-    const name = isString(value)
+    const name = isStringType(value)
       ? value
       : value.name
     const typeMap = this.mapFor(type)

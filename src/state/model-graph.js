@@ -1,5 +1,6 @@
 const {Base} = require('../base')
 const Graph = require('graph.js/dist/graph.full')
+const {isStringType} = require('../utils')
 
 class ModelGraph extends Base {
   constructor(config = {}) {
@@ -21,47 +22,53 @@ class ModelGraph extends Base {
 
   addNode(value) {
     this.addOrGetNode(value)
+    return this
   }
 
   addOrGetNode(value) {
-    if (!isString(value)) {
+    if (!isStringType(value)) {
       this.ensureNode(value)
     }
+    const key = value.name || value
     return this.getNode(key)
   }
 
   hasNode(key) {
-    this
-      .graph
-      .hasVertex(key)
+    return Boolean(this.graph.hasVertex(key))
   }
 
-  getNode(key) {
+  getNode(node) {
+    return isStringType(node)
+      ? this
+        .graph
+        .vertexValue(node)
+      : node
+  }
+
+  hasEdge(fromNode, toNode) {
+    fromNode = this.getNode(fromNode)
+    toNode = this.getNode(toNode)
+    const hasIt = this
+      .graph
+      .hasEdge(fromNode, toNode)
+    return Boolean(hasIt)
+  }
+
+  getEdge(fromNode, toNode) {
     return this
       .graph
-      .vertexValue(key)
-  }
-
-  hasEdge(from, to) {
-    this
-      .graph
-      .hasEdge(from, to)
-  }
-
-  getEdge(from, to) {
-    this
-      .graph
-      .edgeValue(from, to)
+      .edgeValue(fromNode, toNode)
   }
 
   ensureNode(key, value) {
-    if (!isString(key)) {
+    if (!isStringType(key)) {
       value = key
       key = key.name
     }
     this
       .graph
       .ensureVertex(key, value)
+    return this
   }
 }
 
