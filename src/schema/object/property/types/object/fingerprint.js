@@ -1,10 +1,10 @@
 const {Base} = require('../../../../../base')
-
+const hash = require('object-hash')
 class Fingerprint extends Base {
   constructor({object, config}) {
     super(config)
     this.object = object
-    const {object, name, title} = object
+    const {name, title} = object
     this.name = name
     this.title = title
     this.properties = object.properties
@@ -30,6 +30,6 @@ class Fingerprint extends Base {
   }
 }
 
-modules.exports = {
+module.exports = {
   Fingerprint
 }

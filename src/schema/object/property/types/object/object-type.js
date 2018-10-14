@@ -1,4 +1,3 @@
-const hash = require('object-hash')
 const {BaseType} = require('../base-type')
 const {createObjectTypeNameResolver} = require('./type-name')
 const {Fingerprint} = require('./fingerprint')
@@ -34,6 +33,7 @@ class ObjectType extends BaseType {
       this.warn('addToCache', 'object was already cached', {object: this.fingerprint})
       return
     }
+    const hash = this.hash
     this.config.cache = this.config.cache || {}
     this.config.cache[hash] = this.property
   }
@@ -112,7 +112,8 @@ class ObjectType extends BaseType {
   }
 
   get cached() {
-    return this.config.cached[this.hash]
+    const cache = this.config.cache || {}
+    return cache[this.hash]
   }
 
   resolveNested() {
@@ -126,8 +127,8 @@ class ObjectType extends BaseType {
       ...this.property,
       owner
     }
-    const objResolver = createObjectResolver({object, config: this.config})
-    objResolver.resolve()
+    const propsResolver = createPropertiesResolver({object, config: this.config})
+    propsResolver.resolve()
     return this
   }
 
@@ -148,4 +149,4 @@ module.exports = {
   ObjectType
 }
 
-const {createObjectResolver} = require('../../../properties-resolver')
+const {createPropertiesResolver} = require('../../../properties-resolver')

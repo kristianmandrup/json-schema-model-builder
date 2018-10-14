@@ -95,7 +95,13 @@ describe('toArray', () => {
     const {shape} = arr
     describe('name', () => {
       test('property', () => {
-        expect(shape.name.property).toEqual('strList')
+        const expected = {
+          "key": "strList",
+          "owner": undefined,
+          "property": "accounts"
+        }
+        const {property} = shape.name
+        expect(property.key).toEqual('strList')
       })
     })
 
@@ -112,7 +118,13 @@ describe('toArray', () => {
 
     describe('name', () => {
       test('property', () => {
-        expect(shape.name.property).toEqual('accounts')
+        const expected = {
+          "key": "strList",
+          "owner": undefined,
+          "property": "accounts"
+        }
+        const {property} = shape.name
+        expect(property).toEqual(expected)
       })
     })
 

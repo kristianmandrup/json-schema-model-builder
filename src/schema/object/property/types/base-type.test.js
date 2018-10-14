@@ -1,4 +1,4 @@
-const {BaseType, $BaseType, checkType} = require('./base')
+const {BaseType, $BaseType, checkType} = require('./base-type')
 
 describe('checkType', () => {
   describe('not an object', () => {
@@ -274,12 +274,21 @@ describe.only('BaseType', () => {
     })
 
     test('name', () => {
-      expect(shape.name).toEqual({key: 'kitty', owner: 'person', property: 'myName'})
+      const expected = {
+        "full": "person_kitty",
+        "property": {
+          "key": "kitty",
+          "owner": "person",
+          "property": "myName"
+        }
+      }
+      expect(shape.name).toEqual(expected)
     })
 
     test('type', () => {
-      expect(shape.type).toEqual({
+      const expected = {
         property: 'string',
+        refType: 'embedded',
         format: 'date-time',
         base: 'any',
         expanded: 'string',
@@ -291,7 +300,8 @@ describe.only('BaseType', () => {
           resolved: '#/definitions/car'
         },
         resolved: 'Car'
-      })
+      }
+      expect(shape.type).toEqual(expected)
     })
   })
 })

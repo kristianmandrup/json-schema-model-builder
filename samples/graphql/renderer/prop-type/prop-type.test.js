@@ -1,5 +1,5 @@
 const {PropType} = require('./prop-type')
-const {Decorators} = require('./decorators')
+const {Decorators} = require('../decorators')
 
 const overrideType = false
 const baseType = 'String'

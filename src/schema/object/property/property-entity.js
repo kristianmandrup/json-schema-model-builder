@@ -84,7 +84,7 @@ class PropertyEntityResolver extends Base {
   }
 
   resolveType() {
-    const entity = resolveToEntity()
+    const entity = this.resolveToEntity()
     return this.entityType(entity)
   }
 
