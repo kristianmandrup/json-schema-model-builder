@@ -11,7 +11,7 @@ class PropertiesResolver extends Base {
     super(config)
     const {properties, owner} = object
     this.ownerName = (owner || {}).name
-    this.properties = properties
+    this.properties = properties || {}
     this.config = config
     this.validate()
   }

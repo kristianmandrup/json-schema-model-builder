@@ -7,12 +7,14 @@ class Fingerprint extends Base {
     const {name, title} = object
     this.name = name
     this.title = title
-    this.properties = object.properties
+    this.properties = object.properties || {}
   }
 
   get propsObj() {
     const names = Object.keys(this.properties)
-    const types = names.map(name => this.properties[name].type)
+    const types = names.length > 0
+      ? names.map(name => this.properties[name].type)
+      : []
     return {names, types}
   }
 
