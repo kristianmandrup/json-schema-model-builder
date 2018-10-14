@@ -112,11 +112,11 @@ const schema = {
 
 describe.skip('converts JSON schema to GraphQL types with decorators', () => {
   const {types, enums} = buildTypes(schema)
-  console.log({types, enums})
+  // console.log({types, enums})
 
   describe('Person type', () => {
     const Person = types['Person']
-    console.log({Person})
+    // console.log({Person})
 
     test('is defined', () => {
       expect(Person).toBeDefined()

@@ -58,11 +58,11 @@ class PropertyEntityResolver extends Base {
       .keys(resolvers)
       .reduce((acc, key) => {
         const resolver = resolvers[key]
-        console.log({key, resolver, property: this.property})
+        // console.log({key, resolver, property: this.property})
         this.validateResolver(resolver, key)
         const propType = resolver({property: this.property, config: this.config})
         if (!propType) {
-          this.warn('resolveMap', 'no proptype for ', {key})
+          // this.info('resolveMap', 'no proptype', {key})
           return acc
         }
         const resultKey = propType
@@ -70,7 +70,7 @@ class PropertyEntityResolver extends Base {
           : undefined
         !isStringType(resultKey) && this.error('resolveMap', `resolved entity has invalid or missing kind ${resolved.kind}`)
         const value = resolveShape(propType)
-        console.log({value})
+        // console.log({value})
         assignAt(acc, resultKey, value)
         return acc
       }, {})
@@ -84,7 +84,6 @@ class PropertyEntityResolver extends Base {
 
   resolveToEntity() {
     const map = this.resolveMap()
-    console.log({map})
     return this.selectEntity(map)
   }
 
@@ -109,7 +108,6 @@ class PropertyEntityResolver extends Base {
       return map.enum
     }
     const values = Object.values(map)
-    console.log({values, map})
     const resultCount = values.length || 0
     resultCount === 0 && this.error('selectEntity', 'no results can be selected from result map', map)
 
