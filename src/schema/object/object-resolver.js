@@ -40,6 +40,9 @@ class ObjectResolver extends Base {
     this.object = object
     this.config = config
     this.opts = opts || {}
+    if (!object) {
+      this.error('Missing object to resolve')
+    }
 
     this.schema = opts.schema
     const {
@@ -66,8 +69,7 @@ class ObjectResolver extends Base {
 
   addFingerprint() {
     this.fingerprint = this.createFingerprint()
-    this.config.cache = this.config.cache || {}
-    this.config.cache[this.hash] = this.object
+    this.cache[this.hash] = this.object
   }
 
   get hash() {
@@ -84,24 +86,28 @@ class ObjectResolver extends Base {
       this.warn('addToCache', 'object was already cached', {object: this.fingerprint})
       return
     }
-    this.config.cache = this.config.cache || {}
-    this.config.cache[hash] = this.property
+    this.cache[this.hash] = this.property
   }
 
   get wasCached() {
     return Boolean(this.cached)
   }
 
+  get cache() {
+    this.config.cache = this.config.cache || {}
+    return this.config.cache || {}
+  }
+
   get cached() {
-    return this.config.cached[this.hash]
+    return this.cache[this.hash]
   }
 
   get hash() {
-    return fingerprint.hash
+    return this.fingerprint.hash
   }
 
   createFingerprint() {
-    return new Fingerprint({object: this.property, config: this.config})
+    return new Fingerprint({object: this.object, config: this.config})
   }
 
   get schemaType() {
@@ -146,7 +152,8 @@ class ObjectResolver extends Base {
     return true
   }
 
-  resolve({collections: ['properties']}) {
+  resolve({collections} = {}) {
+    collections = collections || ['properties']
     if (!this.shouldResolve) 
       return
 
@@ -162,17 +169,17 @@ class ObjectResolver extends Base {
 
   resolveCollection(mapName = 'properties') {
     this.validate()
-    const schemaName = this.title || this.name
-    const name = camelize(schemaName || this.key)
+    const schemaName = this.title || this.name || this.key || 'unknown'
+    const name = camelize(schemaName)
     this.validateName(name)
     this.normalize()
+    const properties = this[mapName]
     const object = {
       owner: {
-        name: name
+        name
       },
-      properties: this[mapName]
+      properties
     }
-    console.log(object)
     const resolver = createPropertiesResolver({object, config: this.config})
     return resolver.resolve()
   }
@@ -184,11 +191,11 @@ class ObjectResolver extends Base {
   // if schema is received via value, we must assume it comes from a recursive
   // object resolve
   get shouldNormalize() {
-    return this.isSchema
+    return Boolean(this.isSchema)
   }
 
   get isSchema() {
-    return this.schema
+    return Boolean(this.schema)
   }
 
   normalizeProps() {

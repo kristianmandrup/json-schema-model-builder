@@ -7,10 +7,16 @@ function isBoolean(property) {
 }
 
 function resolve({property, config}) {
-  return isBoolean(property) && BooleanType.create({property, config})
+  return BooleanType
+    .create({property, config})
+    .apply()
 }
 
 class BooleanType extends PrimitiveType {
+  shouldApply() {
+    return isBoolean(this.property)
+  }
+
   static create(obj) {
     return new BooleanType(obj)
   }

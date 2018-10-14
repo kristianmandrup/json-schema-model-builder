@@ -14,10 +14,16 @@ function isNumber(property) {
 }
 
 function resolve({property, config}) {
-  return isNumber(property) && NumberType.create({property, config})
+  return NumberType
+    .create({property, config})
+    .apply()
 }
 
 class NumberType extends PrimitiveType {
+  shouldApply() {
+    return isNumber(this.property)
+  }
+
   // allow more type meta control, such as expanded name etc this._types.number ||
   get defaultType() {
     return 'number'

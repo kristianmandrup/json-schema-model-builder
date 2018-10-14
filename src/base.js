@@ -21,7 +21,7 @@ class Base {
   error(name, msg, value) {
     const errMsg = `ERROR [${this.constructor.name}:${name}] ${msg}`
     value
-      ? this.logErr(errMsg, value)
+      ? this.logErr(errMsg, {value})
       : this.logErr(errMsg)
     throw new Error(errMsg)
   }

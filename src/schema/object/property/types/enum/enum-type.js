@@ -6,10 +6,16 @@ function isEnum(property) {
 }
 
 function resolve({property, config}) {
-  return isEnum(property) && EnumType.create({property, config})
+  return EnumType
+    .create({property, config})
+    .apply()
 }
 
 class EnumType extends BaseType {
+  shouldApply() {
+    return isEnum(this.property)
+  }
+
   get expandedType() {
     return 'enum'
   }

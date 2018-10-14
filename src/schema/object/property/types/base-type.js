@@ -61,6 +61,13 @@ class $BaseType extends Base {
     return this._defRef
   }
 
+  apply() {
+    this.resolveAndMergeReferenced()
+    return this.shouldApply()
+      ? this
+      : false
+  }
+
   initialize() {
     this.resolveAndMergeReferenced()
     this.extractMeta()

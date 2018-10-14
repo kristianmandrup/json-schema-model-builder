@@ -6,7 +6,9 @@ function isArray(property) {
 }
 
 function resolve({property, config}) {
-  return isArray(property) && ArrayType.create({property, config})
+  return ArrayType
+    .create({property, config})
+    .apply()
 }
 
 class ArrayType extends PrimitiveType {
@@ -14,6 +16,10 @@ class ArrayType extends PrimitiveType {
     super({property, config})
     this.items = property.items || []
     this.resolveTypes()
+  }
+
+  shouldApply() {
+    return isArray(this.property)
   }
 
   static create(obj) {

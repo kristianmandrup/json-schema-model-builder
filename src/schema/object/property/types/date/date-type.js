@@ -3,10 +3,16 @@ const {isDate} = require('./utils')
 const {camelize} = require('../utils')
 
 function resolve({property, config}) {
-  return isDate(property) && DateType.create({property, config})
+  return DateType
+    .create({property, config})
+    .apply()
 }
 
 class DateType extends PrimitiveType {
+  shouldApply() {
+    return isDate(this.property)
+  }
+
   get expandedType() {
     return 'date'
   }

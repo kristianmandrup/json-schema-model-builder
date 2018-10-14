@@ -1,4 +1,4 @@
-const {createObjectResolver, resolve} = require('./object-resolver')
+const {resolve} = require('./object-resolver')
 const {schemas} = require('../data');
 
 const create = ({object, schema, config, opts}) => {

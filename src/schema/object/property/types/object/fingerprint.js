@@ -4,6 +4,9 @@ class Fingerprint extends Base {
   constructor({object, config}) {
     super(config)
     this.object = object
+    if (!object) {
+      this.error('Object is empty')
+    }
     const {name, title} = object
     this.name = name
     this.title = title

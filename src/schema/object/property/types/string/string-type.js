@@ -5,10 +5,16 @@ function isString(property) {
 }
 
 const resolve = ({property, config}) => {
-  return isString(property) && StringType.create({property, config})
+  return StringType
+    .create({property, config})
+    .apply()
 }
 
 class StringType extends PrimitiveType {
+  shouldApply() {
+    return isString(this.property)
+  }
+
   get defaultType() {
     return 'String'
   }
