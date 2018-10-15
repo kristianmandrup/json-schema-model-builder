@@ -41,7 +41,12 @@ const $create = (key, value, config) => {
   return resolve(params)
 }
 
-const create = (key, config) => {
+const {createPropertiesResolver} = require('../../../properties-resolver')
+const {createPropertyEntityResolver} = require('../../property-entity')
+
+const create = (key, config = {}) => {
+  config.createPropertiesResolver = createPropertiesResolver
+  config.createPropertyEntityResolver = createPropertyEntityResolver
   const value = objects[key]
   if (!value) {
     throw new Error(`no such object entry: ${key}`)

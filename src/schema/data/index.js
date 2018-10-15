@@ -25,15 +25,6 @@ const properties = {
     "description": "Money in pocket",
     "type": "number"
   },
-  "accounts": {
-    "description": "Bank accounts",
-    "type": "array",
-    "items": [
-      {
-        "$ref": "#/definitions/account"
-      }
-    ]
-  },
   "numberOfChildren": {
     "description": "Children parented",
     "type": "array",
@@ -83,6 +74,19 @@ const schemas = {
   invalid: {
     type: 'number',
     properties: true
+  },
+  badRef: {
+    properties: {
+      "accounts": {
+        "description": "Bank accounts",
+        "type": "array",
+        "items": [
+          {
+            "$ref": "#/definitions/account"
+          }
+        ]
+      }
+    }
   }
 }
 

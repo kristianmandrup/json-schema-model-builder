@@ -19,6 +19,8 @@ class ObjectType extends BaseType {
     super({property, config, opts})
     const {properties, typeName} = this.property
     this.properties = properties
+    this.createPropertiesResolver = config.createPropertiesResolver
+    this.createObjectTypeNameResolver = (config || {}).createObjectTypeNameResolver || createObjectTypeNameResolver
     this.objTypeName = typeName
     this.addFingerprint()
   }
@@ -81,7 +83,7 @@ class ObjectType extends BaseType {
   }
 
   resolveTypeName() {
-    this.objectTypeNameResolver = createObjectTypeNameResolver({object: this, config: this.config})
+    this.objectTypeNameResolver = this.createObjectTypeNameResolver({object: this, config: this.config})
     return this
       .objectTypeNameResolver
       .resolve()
@@ -127,7 +129,7 @@ class ObjectType extends BaseType {
       ...this.property,
       owner
     }
-    const propsResolver = createPropertiesResolver({object, config: this.config})
+    const propsResolver = this.createPropertiesResolver({object, config: this.config})
     propsResolver.resolve()
     return this
   }
@@ -148,5 +150,3 @@ module.exports = {
   resolve,
   ObjectType
 }
-
-const {createPropertiesResolver} = require('../../../properties-resolver')

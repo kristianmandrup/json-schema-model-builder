@@ -1,7 +1,11 @@
 const {createPropertiesResolver} = require('./properties-resolver')
 const {schemas} = require('../data');
 
+const {property} = require('./property')
+const {createPropertyEntityResolver} = property
+
 const create = ({object, config}) => {
+  config.createPropertyEntityResolver = createPropertyEntityResolver
   return new createPropertiesResolver({object, config})
 }
 

@@ -1,6 +1,4 @@
 const {Base} = require('../../base')
-const {property} = require('./property')
-const {createPropertyEntityResolver} = property
 
 const createPropertiesResolver = ({object, config}) => {
   return new PropertiesResolver({object, config})
@@ -12,7 +10,8 @@ class PropertiesResolver extends Base {
     const {properties, owner} = object
     this.ownerName = (owner || {}).name
     this.properties = properties || {}
-    this.config = config
+    this.config = config || {}
+    this.createPropertyEntityResolver = config.createPropertyEntityResolver
     this.validate()
   }
 
@@ -42,7 +41,7 @@ class PropertiesResolver extends Base {
 
   reduceProp(acc, key) {
     const property = this.prepareProperty(key)
-    const propertyEntityResolver = createPropertyEntityResolver({property, config: this.config})
+    const propertyEntityResolver = this.createPropertyEntityResolver({property, config: this.config})
     const entity = propertyEntityResolver.resolve()
     acc[key] = entity
     return acc
