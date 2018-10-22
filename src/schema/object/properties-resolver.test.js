@@ -1,131 +1,129 @@
-const {createPropertiesResolver} = require('./properties-resolver')
-const {schemas} = require('../data');
+const { createPropertiesResolver } = require("./properties-resolver");
+const { schemas } = require("../data");
 
-const {property} = require('./property')
-const {createPropertyEntityResolver} = property
+const { property } = require("./property");
+const { createPropertyEntityResolver } = property;
 
-const create = ({object, config}) => {
-  config.createPropertyEntityResolver = createPropertyEntityResolver
-  return new createPropertiesResolver({object, config})
-}
+const create = ({ object, config = {} }) => {
+  config.createPropertyEntityResolver = createPropertyEntityResolver;
+  return createPropertiesResolver({ object, config });
+};
 
-describe('PropertiesResolver', () => {
-  const object = schemas.valid
-  describe('validate', () => {
-    test('missing ownerName - error', () => {
+const config = {};
+
+describe("PropertiesResolver", () => {
+  const object = schemas.valid;
+  object.owner = {};
+  describe("validate", () => {
+    test("missing ownerName - error", () => {
       try {
-        object.ownerName = undefined
-        create({object, config})
+        object.owner.name = undefined;
+        create({ object, config });
       } catch (err) {
-        expect(err).toBeDefined()
+        expect(err).toBeDefined();
       }
-    })
+    });
 
-    test('has ownerName - no error', () => {
+    test("has ownerName - no error", () => {
       try {
-        object.ownerName = 'person'
-        const created = create({object, config})
-        expect(created).toBeDefined()
+        object.owner.name = "person";
+        const created = create({ object, config });
+        expect(created).toBeDefined();
       } catch (err) {
-        expect(err).toBeUnDefined()
+        expect(err).toBeUnDefined();
       }
-    })
-  })
+    });
+  });
 
-  describe('resolve', () => {
-    const created = create({object, config})
-    const resolved = created.resolve()
+  describe("resolve", () => {
+    object.owner.name = "person";
+    const created = create({ object, config });
+    const resolved = created.resolve();
 
     // TODO: test what is resolved
-    test('resolves to object', () => {
-      expect(typeof resolved).toEqual('object')
-    })
+    test("resolves to object", () => {
+      expect(typeof resolved).toEqual("object");
+    });
 
-    test('age entry is a primitive entity', () => {
-      expect(resolved.age.type).toEqual('primitive')
-    })
+    test("age entry is a primitive entity", () => {
+      expect(resolved.age.type.kind).toEqual("primitive");
+    });
+  });
 
-    test('age primitive entity has a value object', () => {
-      expect(typeof resolved.age.value).toEqual('object')
-    })
-  })
+  describe("groupByTypes", () => {
+    object.owner.name = "person";
+    const created = create({ object, config });
+    const grouped = created.groupByTypes();
+    test("created grouped type map by entity type", () => {
+      expect(typeof grouped).toEqual("object");
+    });
 
-  describe('groupByTypes', () => {
-    const created = create({object, config})
-    const grouped = created.groupByTypes()
+    test("object group has a car entry", () => {
+      expect(typeof grouped.object).toEqual("object");
+      expect(grouped.object.car).toBeDefined();
+    });
 
-    test('created grouped type map by entity type', () => {
-      expect(typeof grouped).toEqual('object')
-    })
+    test("integer group has an age entry", () => {
+      expect(typeof grouped.integer).toEqual("object");
+      expect(grouped.integer.age).toBeDefined();
+    });
+  });
+});
 
-    test('object group has a car entry', () => {
-      expect(typeof grouped.object).toEqual('object')
-      expect(grouped.object.car).toBeDefined()
-    })
-
-    test('primitive group has an age entry', () => {
-      expect(typeof grouped.object).toEqual('object')
-      expect(grouped.primitive.age).toBeDefined()
-    })
-  })
-})
-
-describe('prepareProperty', () => {
+describe("prepareProperty", () => {
   const properties = {
     age: {
-      type: 'number'
+      type: "number"
     }
-  }
+  };
   const object = {
-    ownerName: 'person',
+    owner: {
+      name: "person"
+    },
     properties
-  }
-  const created = create({object, config})
-  const prepared = created.prepareProperty('age')
+  };
+  const created = create({ object, config });
+  const prepared = created.prepareProperty("age");
 
-  describe('raw property', () => {
-    const raw = properties.age
+  describe("raw property", () => {
+    const raw = properties.age;
 
-    test('no ownerName', () => {
-      expect(raw.ownerName).toBeUndefined()
-    })
+    test("has ownerName", () => {
+      expect(raw.ownerName).toBeDefined();
+    });
 
-    test('no key', () => {
-      expect(raw.key).toBeUndefined()
-    })
-  })
+    test("has key age", () => {
+      expect(raw.key).toBe("age");
+    });
+  });
 
-  describe('prepared', () => {
-    test('is an object', () => {
-      expect(typeof prepared).toEqual('object')
-    })
+  describe("prepared", () => {
+    test("is an object", () => {
+      expect(typeof prepared).toEqual("object");
+    });
 
-    test('has ownerName', () => {
-      expect(prepared.ownerName).toEqual('person')
-    })
+    test("has ownerName", () => {
+      expect(prepared.ownerName).toEqual("person");
+    });
 
-    test('has a key', () => {
-      expect(prepared.key).toEqual('age')
-    })
-  })
+    test("has a key", () => {
+      expect(prepared.key).toEqual("age");
+    });
+  });
 
-  describe('reduceProp', () => {
-    const created = create({object, config})
-    const entityMap = created.reduceProp('age')
-    const {age} = entityMap
+  describe("reduceProp", () => {
+    const created = create({ object, config });
+    const entityMap = created.reduceProp({}, "age");
+    const { age } = entityMap;
 
-    describe('entity', () => {
-      test('is an object', () => {
-        expect(typeof age).toEqual('object')
-      })
+    describe("entity", () => {
+      test("is an object", () => {
+        expect(typeof age).toEqual("object");
+      });
 
-      test('is a primitive', () => {
-        expect(age.type).toEqual('primitive')
-      })
-
-      test('has an object value', () => {
-        expect(typeof age.value).toEqual('object')
-      })
-    })
-  })
-})
+      test("is a primitive", () => {
+        expect(age.type.kind).toEqual("primitive");
+      });
+    });
+  });
+});
