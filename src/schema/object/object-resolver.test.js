@@ -1,93 +1,99 @@
-const {resolve} = require('./object-resolver')
-const {schemas} = require('../data');
+const { createObjectResolver } = require("./object-resolver");
+const { schemas } = require("../data");
 
-const create = ({object, schema, config, opts}) => {
-  return resolve({object, schema, config, opts})
-}
+const create = ({ object, schema, config, opts }) => {
+  return createObjectResolver({ object, schema, config, opts });
+};
 
-describe('ObjectResolver', () => {
-  const schema = schemas.valid
+const { log } = console;
 
-  describe('create and resolve', () => {
-    const config = {}
-    const obj = create({schema, config})
+describe("ObjectResolver", () => {
+  const schema = schemas.valid;
 
-    test('type', () => {
-      expect(obj.type).toEqual('schema')
-    })
+  describe("create and resolve", () => {
+    const config = {};
+    const obj = create({ schema, config });
 
-    test('validate', () => {
+    test("type", () => {
+      expect(obj.type).toEqual("object");
+    });
+
+    test("schemaType", () => {
+      expect(obj.schemaType).toEqual("schema");
+    });
+
+    test("validate", () => {
       try {
-        const valid = obj.validate()
-        expect(valid).toBe(true)
+        const valid = obj.validate();
+        expect(valid).toBe(true);
       } catch (err) {}
-    })
+    });
 
-    test('config.$schemaRef', () => {
-      expect(obj.config.$schemaRef).toBe(schema)
-    })
+    test("config.$schemaRef", () => {
+      expect(obj.config.$schemaRef).toBe(schema);
+    });
 
-    test('isSchema', () => {
-      expect(obj.isSchema).toBe(true)
-    })
+    test("isSchema", () => {
+      expect(obj.isSchema).toBe(true);
+    });
 
-    test('resolve', () => {
-      const resolved = obj.resolve()
-      expect(resolved).toBeTruthy()
-    })
+    test("resolve", () => {
+      const resolved = obj.resolve();
+      expect(resolved).toBeTruthy();
+    });
 
-    test('shouldNormalize', () => {
-      expect(obj.shouldNormalize).toBe(true)
-    })
+    test("shouldNormalize", () => {
+      expect(obj.shouldNormalize).toBe(true);
+    });
 
-    test('normalize', () => {
-      obj.normalize()
-      expect(obj.properties.age.required).toBe(true)
-    })
-  })
+    test("normalize", () => {
+      obj.normalize();
+      expect(obj.properties.age.required).toBe(true);
+    });
+  });
 
-  describe('object', () => {
+  describe("object", () => {
     const object = {
-      "description": "Car owned",
-      "type": "object",
-      "properties": {
+      description: "Car owned",
+      type: "object",
+      properties: {
         name: {
           type: "string"
         }
       }
-    }
+    };
     const config = {
       $schemaRef: schema
-    }
-    const obj = create({object, config})
+    };
+    const obj = create({ object, config });
 
-    test('type', () => {
-      expect(obj.type).toEqual('object')
-    })
+    test("type", () => {
+      expect(obj.type).toEqual("object");
+    });
 
-    test('validate', () => {
+    test("validate", () => {
       try {
-        const valid = obj.validate()
-        expect(valid).toBe(true)
+        const valid = obj.validate();
+        expect(valid).toBe(true);
       } catch (err) {}
-    })
+    });
 
-    test('config.$schemaRef', () => {
-      expect(obj.config.$schemaRef).toBeUndefined()
-    })
+    test("config.$schemaRef", () => {
+      expect(obj.config.$schemaRef).toBeDefined();
+    });
 
-    test('isSchema', () => {
-      expect(obj.isSchema).toBe(false)
-    })
+    test("isSchema", () => {
+      expect(obj.isSchema).toBe(false);
+    });
 
-    test('resolve', () => {
-      const resolved = obj.resolve()
+    test("resolve", () => {
+      const resolved = obj.resolve();
       // console.log({resolved})
-      expect(resolved).toBeTruthy()
-    })
+      expect(resolved).toBeTruthy();
+    });
 
-    test('shouldNormalize', () => {
-      expect(obj.shouldNormalize).toBe(false)
-    })
-  })
-})
+    test("shouldNormalize", () => {
+      expect(obj.shouldNormalize).toBe(false);
+    });
+  });
+});
