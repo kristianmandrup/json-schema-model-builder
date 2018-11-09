@@ -14,10 +14,12 @@ const createObjectResolver = ({ object, schema, config, opts }) => {
 };
 
 const resolveSchema = opts => {
-  return resolve({
+  const resolved = resolve({
     ...opts,
     name: "resolveSchema"
   });
+  // console.log({ resolved });
+  return resolved || {};
 };
 
 const resolve = ({
@@ -47,6 +49,7 @@ class ObjectResolver extends Base {
     const obj = object || schema;
     this.object = obj;
     this.config = config;
+    this.grouped = config.grouped;
     this.opts = opts || {};
     if (!obj) {
       this.error("Missing object to resolve");
@@ -149,7 +152,7 @@ class ObjectResolver extends Base {
   }
 
   resolveSchema() {
-    this.resolve({
+    return this.resolve({
       collections: ["properties", "definitions"]
     });
   }
@@ -175,15 +178,23 @@ class ObjectResolver extends Base {
     const name = camelize(schemaName);
     this.validateName(name);
     this.normalize();
-    const properties = this[mapName];
+    const properties = this[mapName] || {};
     const object = {
       owner: {
         name
       },
       properties
     };
-    const resolver = createPropertiesResolver({ object, config: this.config });
-    return resolver.resolve();
+    this.propertiesResolver = createPropertiesResolver({
+      object,
+      config: this.config
+    });
+    return this.resolveProperties();
+  }
+
+  resolveProperties() {
+    const resolver = this.propertiesResolver;
+    return this.grouped ? resolver.groupByTypes() : resolver.resolve();
   }
 
   normalize() {
