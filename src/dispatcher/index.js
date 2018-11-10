@@ -1,5 +1,6 @@
-const {Dispatcher} = require('./dispatcher')
+const { Dispatcher, createDispatcher } = require("./dispatcher");
 
 module.exports = {
-  Dispatcher
-}
+  Dispatcher,
+  createDispatcher
+};

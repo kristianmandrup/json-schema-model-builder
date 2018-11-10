@@ -14,6 +14,8 @@ class Schema extends Base {
   }
 
   resolve() {
+    const config = this.config;
+    config.dispatcher = config.dispatcher || this.defaultDispatcher;
     // resolves both properties AND definitions
     return resolveSchema({
       schema: this.schema,
@@ -23,7 +25,21 @@ class Schema extends Base {
       }
     });
   }
+
+  get defaultDispatcher() {
+    const state = this.defaultState;
+    const config = this.config;
+    return createDispatcher({ state, config });
+  }
+
+  get defaultState() {
+    const config = this.config;
+    return createState({ config });
+  }
 }
+
+const { createDispatcher } = require("../dispatcher");
+const { createState } = require("../state");
 
 module.exports = {
   createSchema,

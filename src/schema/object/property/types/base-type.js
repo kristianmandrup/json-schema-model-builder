@@ -24,7 +24,7 @@ class $BaseType extends Base {
     this.refType = refType === "reference" ? "reference" : "embedded";
     this.name = {
       key: key,
-      id: camelize(name || key, { cap: false }),
+      id: name || key,
       owner: owner.name // Person, Car whoever has the property that references this object
     };
     this.type = {
