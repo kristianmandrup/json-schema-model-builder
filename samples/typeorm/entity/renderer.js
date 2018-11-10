@@ -1,7 +1,11 @@
+function createEntityRenderer({ model, config }) {
+  return new EntityRenderer({ model, config });
+}
+
 class EntityRenderer {
-  constructor({model, config}) {
-    this.model = model
-    this.config = config
+  constructor({ model, config = {} }) {
+    this.model = model;
+    this.config = config;
   }
 
   render() {
@@ -10,50 +14,47 @@ ${imports}
 ${entityDecorator}
 export class ${model.className} {
   ${body}
-}`
+}`;
   }
 
   get imports() {
-    return
+    return;
   }
 
   get typeImports() {
-    return `import { Entity } from '`
+    return `import { Entity } from '`;
   }
 
   get renderTypeOrmImports() {
-    return `import { ${this.typeOrmImports} } from "typeorm";`
+    return `import { ${this.typeOrmImports} } from "typeorm";`;
   }
 
   get typeOrmImports() {
-    return ['Entity']
+    return ["Entity"]
       .concat(this.relationshipImports)
-      .concat(this.columnImports)
+      .concat(this.columnImports);
   }
 
   // TODO
   get relationshipImports() {
-    return ['ManyToOne']
+    return ["ManyToOne"];
   }
 
   // TODO
   get columnImports() {
-    return ['PrimaryGeneratedColumn', 'Column']
+    return ["PrimaryGeneratedColumn", "Column"];
   }
 
   get entityDecorator() {
-    return `@Entity()`
+    return `@Entity()`;
   }
 
   body() {
-    return this
-      .model
-      .columns
-      .render()
-      .join('\n')
+    return this.model.columns.render().join("\n");
   }
 }
 
 module.exports = {
-  EntityRenderer
-}
+  EntityRenderer,
+  createEntityRenderer
+};

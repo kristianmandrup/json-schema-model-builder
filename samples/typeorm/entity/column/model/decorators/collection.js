@@ -5,7 +5,8 @@ const {
   JoinTableDecorator
 } = require("./relationships");
 
-const { ColumnDecorator, ColumnPrimaryDecorator } = require("./column");
+const { ColumnDecorator } = require("./column");
+const { PrimaryColumnDecorator } = require("./primary-column");
 
 class DecoratorCollection extends BaseColumnModel {
   constructor({ model, config }) {

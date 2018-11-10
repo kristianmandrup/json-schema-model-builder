@@ -1,3 +1,7 @@
+function createColumnDecorator({ model, config }) {
+  return new ColumnDecorator({ model, config });
+}
+
 class ColumnDecorator {
   constructor({ model, config }) {
     this.model = model;
@@ -18,9 +22,7 @@ class ColumnDecorator {
   }
 }
 
-class ColumnPrimaryDecorator extends ColumnDecorator {}
-
 module.exports = {
   ColumnDecorator,
-  ColumnPrimaryDecorator
+  createColumnDecorator
 };

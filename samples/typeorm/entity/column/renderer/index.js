@@ -1,1 +1,4 @@
-module.exports = require('./column')
+module.exports = {
+  column: require("./column"),
+  decorators: require("./decorators")
+};
