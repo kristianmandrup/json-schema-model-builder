@@ -7,9 +7,10 @@ const createBuilder = ({ state, schema, config }) => {
 };
 
 class Builder extends Base {
-  constructor({ state, schema, config }) {
+  constructor({ state, schema, dispatcher, config }) {
     super(config);
     this.state = state.onEvent ? state : createState({ state, config });
+    this.dispatcher = dispatcher || config.dispatcher;
     this.schema = schema || {};
     this.config = config || {};
     this.renderers = config.renderers || {};

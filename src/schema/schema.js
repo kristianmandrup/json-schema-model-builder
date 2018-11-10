@@ -7,9 +7,11 @@ const createSchema = ({ schema, config }) => {
 };
 
 class Schema extends Base {
-  constructor({ schema, config }) {
+  constructor({ schema, dispatcher, state, config }) {
     super(config);
     this.schema = schema;
+    this.state = state || config.state;
+    this.dispatcher = dispatcher || config.dispatcher || this.defaultDispatcher;
     this.properties = schema.properties || {};
   }
 
@@ -27,14 +29,16 @@ class Schema extends Base {
   }
 
   get defaultDispatcher() {
-    const state = this.defaultState;
+    const state = this.state;
     const config = this.config;
     return createDispatcher({ state, config });
   }
 
   get defaultState() {
     const config = this.config;
-    return createState({ config });
+    const state = createState({ config });
+    this.graph = state.graph;
+    return state;
   }
 }
 

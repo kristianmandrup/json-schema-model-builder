@@ -1,13 +1,16 @@
 # JSON Schema model builder
 
-Infrastructure components to easily build models directly from JSON Schema
+Infrastructure components to traverse, build models and cause side effects based on a JSON Schema.
+
+This can be leveraged to build a [Declarative Driven Development](https://github.com/kristianmandrup/decl-driven-dev) framework where you build most of your app from a single source of truth (enriched JSON schemas) and keep it in sync on every update.
 
 ## Status
 
 Under development, but mostly complete. Use the classes as a base for your own infrastructure.
+
 See [Building Blocks](./BuildingBlocks.md) for more details
 
-Please check the tests and markdown `*.md` documentation files for in-depth API documentation.
+Please check the tests and markdown `*.md` documentation files for in-depth API documentation (Note: needs update).
 
 ## Quick start
 
@@ -16,21 +19,28 @@ Please check the tests and markdown `*.md` documentation files for in-depth API 
 
 ## Use
 
-Something like this...
+You can use it something like this...
 
 ```js
 import { schema } from "./schemas/person.json";
 import { config } from "./config";
-import { createBuilder, createState } from "json-schema-model-builder";
+import {
+  createBuilder,
+  createState,
+  createDispatcher
+} from "json-schema-model-builder";
 
 const state = createState({ config });
-const builder = createBuilder({ state, schema, config });
+const dispatcher = createDispatcher({ state, config });
+const builder = createBuilder({ state, schema, dispatcher, config });
 const built = builder.build();
 const rendered = built.render();
 
 // Render the darn thing!
 console.log({ rendered });
 ```
+
+Note: The `Builder` and `Renderer` still need some work, but you can leverage and extend their current implementation already.
 
 ## Design & Architecture
 
