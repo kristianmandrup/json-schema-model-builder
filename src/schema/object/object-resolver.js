@@ -10,7 +10,9 @@ const createObjectResolver = ({ object, schema, config, opts }) => {
     config.createPropertiesResolver || createPropertiesResolver;
   config.createPropertyEntityResolver =
     config.createPropertyEntityResolver || createPropertyEntityResolver;
-  return new ObjectResolver({ object, schema, config, opts });
+  const constructors = config.constructors || {};
+  const $ObjectResolver = constructors.ObjectResolver || ObjectResolver;
+  return new $ObjectResolver({ object, schema, config, opts });
 };
 
 const resolveSchema = opts => {

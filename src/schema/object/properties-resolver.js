@@ -6,7 +6,10 @@ const createPropertiesResolver = ({ object, config }) => {
     config.createPropertyEntityResolver || createPropertyEntityResolver;
   config.createPropertiesResolver =
     config.createPropertiesResolver || createPropertiesResolver;
-  return new PropertiesResolver({ object, config });
+  const constructors = config.constructors || {};
+  const $PropertiesResolver =
+    constructors.PropertiesResolver || PropertiesResolver;
+  return new $PropertiesResolver({ object, config });
 };
 
 class PropertiesResolver extends Base {

@@ -6,7 +6,10 @@ const {
   assignAt
 } = require("../../../utils");
 
-const createPropertyEntityResolver = ({ property, config }) => {
+const createPropertyEntityResolver = ({ property, config = {} }) => {
+  const constructors = config.constructors || {};
+  const $PropertyEntityResolver =
+    constructors.PropertyEntityResolver || PropertyEntityResolver;
   return new PropertyEntityResolver({ property, config });
 };
 
