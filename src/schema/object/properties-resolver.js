@@ -70,7 +70,11 @@ class PropertiesResolver extends Base {
       config: this.config
     });
     const entity = propertyEntityResolver.resolve();
-    const transformedEntity = this.transformEntity(entity);
+    const transformEntity = this.config.transformEntity || this.transformEntity;
+    const transformedEntity = this.transformEntity(entity, {
+      config: this.config,
+      ctx: this
+    });
     acc[key] = transformedEntity;
     return acc;
   }

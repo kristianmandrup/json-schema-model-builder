@@ -2,6 +2,24 @@
 
 Iterate through the properties map of an `object` and resolve each entry using `PropertyResolver`.
 
+## API
+
+The main api is to create a properties resolver:
+
+Factory method `createPropertiesResolver`
+
+```js
+const resolver = createPropertiesResolver({ object, config });
+```
+
+You can also use the class `PropertiesResolver` directly
+
+```js
+const resolver = new PropertiesResolver({ object, config });
+```
+
+### Resolve
+
 ```js
 resolve() {
   return Object
@@ -10,7 +28,7 @@ resolve() {
 }
 ```
 
-Reduce property
+### Reduce property
 
 ```js
 reduceProp(acc, key) {
@@ -22,6 +40,8 @@ reduceProp(acc, key) {
 }
 ```
 
+### prepareProperty
+
 Prepare property object to be resolved (to entity) by adding contextual data
 
 ```js
@@ -32,6 +52,21 @@ prepareProperty(key) {
   property.key = key
   return property
 }
+```
+
+### transformEntity
+
+You can pass a custom `transformEntity` function in the `config` object which can be used to transform each property entity model to the form you need for your particular scenario.
+
+```js
+const config = {
+  transformEntity: (entity, { config, ctx }) => {
+    return myTransform(entity);
+  }
+};
+
+const resolver = createPropertiesResolver(object, config);
+resolver.resolve();
 ```
 
 ## Properties Entity Resolver
