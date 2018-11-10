@@ -39,14 +39,19 @@ describe("PropertiesResolver", () => {
     object.owner.name = "person";
     const created = create({ object, config });
     const resolved = created.resolve();
+    const { type, value } = resolved.age;
+
+    test("type", () => {
+      expect(type).toEqual("primitive");
+    });
 
     // TODO: test what is resolved
-    test("resolves to object", () => {
-      expect(typeof resolved).toEqual("object");
+    test("value is an object", () => {
+      expect(typeof value).toEqual("object");
     });
 
     test("age entry is a primitive entity", () => {
-      expect(resolved.age.type.kind).toEqual("primitive");
+      expect(value.type.kind).toEqual("primitive");
     });
   });
 
@@ -115,14 +120,15 @@ describe("prepareProperty", () => {
     const created = create({ object, config });
     const entityMap = created.reduceProp({}, "age");
     const { age } = entityMap;
+    const { value } = age;
 
     describe("entity", () => {
       test("is an object", () => {
-        expect(typeof age).toEqual("object");
+        expect(typeof value).toEqual("object");
       });
 
       test("is a primitive", () => {
-        expect(age.type.kind).toEqual("primitive");
+        expect(value.type.kind).toEqual("primitive");
       });
     });
   });

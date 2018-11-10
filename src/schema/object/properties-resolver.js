@@ -67,8 +67,14 @@ class PropertiesResolver extends Base {
       config: this.config
     });
     const entity = propertyEntityResolver.resolve();
-    acc[key] = entity;
+    const transformedEntity = this.transformEntity(entity);
+    acc[key] = transformedEntity;
     return acc;
+  }
+
+  // override to customize/filter what gets stored in property map for resolved property entity
+  transformEntity(entity) {
+    return entity;
   }
 
   prepareProperty(key) {
