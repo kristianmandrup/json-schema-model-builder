@@ -94,7 +94,7 @@ class State extends Base {
   }
 
   ensure(value, type) {
-    type = type || value.$type;
+    type = type || value.$type || value.type;
     const map = this.mapFor(type);
     !map && this.erorr("ensure", `Invalid type ${type}`);
     if (!this.has(value, type)) {
