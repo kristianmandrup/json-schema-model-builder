@@ -65,11 +65,11 @@ class PropertyEntityResolver extends Base {
     return true;
   }
 
-  resolveMap(resolveShape) {
+  resolveMap(resolvePropType) {
     this.validate();
-    resolveShape = resolveShape || this.resolveShape.bind(this);
+    resolvePropType = resolvePropType || this.resolvePropType.bind(this);
     const { resolvers } = this;
-    return Object.keys(resolvers).reduce((acc, key) => {
+    const resolved = Object.keys(resolvers).reduce((acc, key) => {
       const resolver = resolvers[key];
       this.validateResolver(resolver, key);
       const propType = resolver({
@@ -85,10 +85,15 @@ class PropertyEntityResolver extends Base {
           "resolveMap",
           `resolved entity has invalid or missing kind ${resolved.kind}`
         );
-      const value = resolveShape(propType);
+      const value = resolvePropType(propType);
       assignAt(acc, resultKey, value);
       return acc;
     }, {});
+    return resolved;
+  }
+
+  resolvePropType(propType) {
+    return this.resolveShape(propType);
   }
 
   resolve() {
@@ -99,7 +104,8 @@ class PropertyEntityResolver extends Base {
 
   resolveToEntity() {
     const map = this.resolveMap();
-    return this.selectEntity(map);
+    const entity = this.selectEntity(map);
+    return entity;
   }
 
   resolveType() {
@@ -119,8 +125,9 @@ class PropertyEntityResolver extends Base {
 
   selectEntity(map) {
     const keys = Object.keys(map);
+    const firstKey = keys[0];
     if (map.primitive && map.enum) {
-      return map.enum;
+      return { type: "enum", value: map.enum };
     }
     const values = Object.values(map);
     const resultCount = values.length || 0;
@@ -131,8 +138,9 @@ class PropertyEntityResolver extends Base {
         map
       );
 
+    const firstValue = values[0];
     return resultCount === 1
-      ? values[0]
+      ? { type: firstKey, value: firstValue }
       : this.onSelectConflict({ map, values, keys });
   }
 

@@ -41,12 +41,12 @@ class PropertiesResolver extends Base {
       this.grouped ||
       keys.reduce((acc, keyName) => {
         const entity = resolvedPropMap[keyName];
-        const { property } = entity;
-        const { type } = entity;
-        // const { key } = property;
-        const typeName = type.property; // type.name || type.property;
+        const { value } = entity;
+        // const propType = entity.type;
+        const { type } = value;
+        const typeName = type.property;
         const prop = {
-          [keyName]: property
+          [keyName]: entity
         };
         acc[typeName] = {
           ...acc[typeName],

@@ -1,110 +1,108 @@
-const {resolve, isBoolean} = require('./boolean-type')
+const { resolve, isBoolean } = require("./boolean-type");
 
 const booleans = {
   invalid: {
-    "type": "booling"
+    type: "booling"
   },
   withDefault: {
-    "name": 'married',
-    "type": "boolean",
+    name: "married",
+    type: "boolean",
     default: true,
     required: true
   },
   basic: {
-    "type": "boolean"
+    type: "boolean"
   }
-}
+};
 
-const config = {}
+const config = {};
 
 const createParams = (key, value, config = {}) => {
   const property = {
     key,
     ...value
-  }
-  return {property, config}
-}
+  };
+  return { property, config };
+};
 
 const $create = (key, value, config) => {
-  const params = createParams(key, value, config)
-  return resolve(params)
-}
+  const params = createParams(key, value, config);
+  return resolve(params);
+};
 
 const create = (key, config) => {
-  const value = booleans[key]
+  const value = booleans[key];
   if (!value) {
-    throw new Error(`no such boolean entry: ${key}`)
+    throw new Error(`no such boolean entry: ${key}`);
   }
-  return $create(key, value, config)
-}
+  return $create(key, value, config);
+};
 
-describe('isBoolean', () => {
-  describe('type: boolean', () => {
-    const check = isBoolean({type: 'boolean'})
-    test('is valid', () => {
-      expect(check).toBe(true)
-    })
-  })
+describe("isBoolean", () => {
+  describe("type: boolean", () => {
+    const check = isBoolean({ type: "boolean" });
+    test("is valid", () => {
+      expect(check).toBe(true);
+    });
+  });
 
-  describe('type: number', () => {
-    const check = isBoolean({type: 'number'})
-    test('is invalid', () => {
-      expect(check).toBe(false)
-    })
-  })
-})
+  describe("type: number", () => {
+    const check = isBoolean({ type: "number" });
+    test("is invalid", () => {
+      expect(check).toBe(false);
+    });
+  });
+});
 
-describe('Boolean', () => {
+describe("Boolean", () => {
+  test("invalid type", () => {
+    const bool = create("invalid");
+    expect(bool).toBeFalsy();
+  });
 
-  test('invalid type', () => {
-    const bool = create('invalid')
-    expect(bool).toBeFalsy()
-  })
+  describe("basic type", () => {
+    const bool = create("basic");
+    const { shape } = bool;
+    test("is valid type", () => {
+      expect(shape.valid).toBe(true);
+    });
 
-  describe('basic type', () => {
-    const bool = create('basic')
-    const {shape} = bool
-    test('is valid type', () => {
-      expect(shape.valid).toBe(true)
-    })
+    test("creates basic type shape", () => {
+      expect(shape.name.property.key).toEqual("basic");
+      expect(shape.type.kind).toEqual("primitive");
+      expect(shape.type.resolved).toEqual("Boolean");
+    });
+  });
 
-    test('creates basic type shape', () => {
-      expect(shape.name.property.key).toEqual('basic')
-      expect(shape.type.kind).toEqual('primitive')
-      expect(shape.type.resolved).toEqual('Boolean')
-    })
-  })
-
-  describe('with targeted default decorator', () => {
+  describe("with targeted default decorator", () => {
     const config = {
       targets: {
         prisma: true
       }
-    }
-    const bool = create('withDefault', config)
-    const {shape} = bool
-    test('is valid type', () => {
-      expect(shape.valid).toBe(true)
-    })
+    };
+    const bool = create("withDefault", config);
+    const { shape } = bool;
+    test("is valid type", () => {
+      expect(shape.valid).toBe(true);
+    });
 
-    test('creates shape with @defaultValue decorator when targeted for prisma', () => {
-      expect(shape.name.property.key).toEqual('withDefault')
-      expect(shape.type.kind).toEqual('primitive')
-      expect(shape.type.resolved).toEqual('Boolean')
-    })
+    test("creates shape with @defaultValue decorator when targeted for prisma", () => {
+      expect(shape.name.property.key).toEqual("withDefault");
+      expect(shape.type.kind).toEqual("primitive");
+      expect(shape.type.resolved).toEqual("Boolean");
+    });
 
-    describe('with untargeted default decorator', () => {
+    describe("with untargeted default decorator", () => {
       const config = {
         targets: {
           prisma: false
         }
-      }
-      const bool = create('withDefault', config)
-      const {shape} = bool
-      // console.log({shape, name: shape.name})
-      test('creates basic shape when not configured to target prisma', () => {
-        expect(shape.type.resolved).toEqual('Boolean')
-      })
-    })
-  })
-})
+      };
+      const bool = create("withDefault", config);
+      const { shape } = bool;
+      test("creates basic shape when not configured to target prisma", () => {
+        expect(shape.type.resolved).toEqual("Boolean");
+      });
+    });
+  });
+});

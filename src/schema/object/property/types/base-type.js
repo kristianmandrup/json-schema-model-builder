@@ -24,7 +24,7 @@ class $BaseType extends Base {
     this.refType = refType === "reference" ? "reference" : "embedded";
     this.name = {
       key: key,
-      property: name || key,
+      id: camelize(name || key, { cap: false }),
       owner: owner.name // Person, Car whoever has the property that references this object
     };
     this.type = {
@@ -138,7 +138,7 @@ class $BaseType extends Base {
       // decorators extracted from value and config
       decorators: this.decorators,
       // the full config
-      config: this.config,
+      // config: this.config,
       // the full property received as input
       property: this.property,
       name: {

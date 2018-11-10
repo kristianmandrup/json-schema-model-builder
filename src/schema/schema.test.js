@@ -26,66 +26,63 @@ const resolve = (obj, config) => {
 };
 
 describe("Schema", () => {
-  describe("invalid schema", () => {
-    test("it fails if not an object type", () => {
-      try {
-        resolve("invalid");
-      } catch (err) {
-        expect(err).toBeTruthy();
-      }
-    });
-  });
-
-  describe.only("valid schema", () => {
-    const resolved = resolve("valid", { grouped: true });
-    const { properties, definitions } = resolved;
-    const { enums, types } = resolved.properties;
+  describe.only("valid children schema", () => {
+    const resolved = resolve("validChildren", { grouped: true });
+    const { properties } = resolved;
+    // const { enums, types } = resolved.properties;
     const keys = Object.keys(resolved);
-    console.log({ keys, properties });
 
     test("it resolves schema", () => {
       expect(resolved).toBeTruthy();
     });
-
-    test("resolved has multiple keys", () => {
-      expect(keys.length).toBeGreaterThan(0);
-    });
-
-    describe.skip("enums", () => {
-      const keys = Object.keys(enums);
-
-      test("enums has multiple keys", () => {
-        expect(keys.length).toBeGreaterThan(0);
-      });
-
-      test("has Color enum", () => {
-        expect(enums.Color).toBeTruthy();
-      });
-
-      test("has ChildCount enum", () => {
-        expect(enums.ChildCount).toBeTruthy();
-      });
-    });
   });
 
-  describe("valid schema", () => {
-    const resolved = resolve("valid");
-    const { enums, types } = resolved;
+  // describe.only("valid schema", () => {
+  // const resolved = resolve("valid", { grouped: true });
+  // const { properties } = resolved;
+  // // const { enums, types } = resolved.properties;
+  // const keys = Object.keys(resolved);
+  // console.log({ keys, properties });
 
-    describe("types", () => {
-      const keys = Object.keys(enums);
+  // test("resolved has multiple keys", () => {
+  //   expect(keys.length).toBeGreaterThan(0);
+  // });
 
-      test("has Person type", () => {
-        expect(types.Person).toBeTruthy();
-      });
+  // describe.skip("enums", () => {
+  //   const keys = Object.keys(enums);
 
-      test("has Account type", () => {
-        expect(types.Account).toBeTruthy();
-      });
+  //   test("enums has multiple keys", () => {
+  //     expect(keys.length).toBeGreaterThan(0);
+  //   });
 
-      test("has Car type", () => {
-        expect(types.Car).toBeTruthy();
-      });
-    });
-  });
+  //   test("has Color enum", () => {
+  //     expect(enums.Color).toBeTruthy();
+  //   });
+
+  //   test("has ChildCount enum", () => {
+  //     expect(enums.ChildCount).toBeTruthy();
+  //   });
+  // });
+  // });
+
+  // describe.skip("valid schema", () => {
+  //   const resolved = resolve("valid");
+  //   const { enums, types } = resolved;
+
+  //   describe("types", () => {
+  //     const keys = Object.keys(enums);
+
+  //     test("has Person type", () => {
+  //       expect(types.Person).toBeTruthy();
+  //     });
+
+  //     test("has Account type", () => {
+  //       expect(types.Account).toBeTruthy();
+  //     });
+
+  //     test("has Car type", () => {
+  //       expect(types.Car).toBeTruthy();
+  //     });
+  //   });
+  // });
 });

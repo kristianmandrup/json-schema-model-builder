@@ -18,7 +18,6 @@ const resolveSchema = opts => {
     ...opts,
     name: "resolveSchema"
   });
-  // console.log({ resolved });
   return resolved || {};
 };
 
@@ -153,7 +152,7 @@ class ObjectResolver extends Base {
 
   resolveSchema() {
     return this.resolve({
-      collections: ["properties", "definitions"]
+      collections: ["properties"]
     });
   }
 
@@ -169,7 +168,8 @@ class ObjectResolver extends Base {
       acc[name] = this.resolveCollection(name);
       return acc;
     }, {});
-    return this.isSchema ? map : map.properties;
+    const result = this.isSchema ? map : map.properties;
+    return result;
   }
 
   resolveCollection(mapName = "properties") {
@@ -178,7 +178,9 @@ class ObjectResolver extends Base {
     const name = camelize(schemaName);
     this.validateName(name);
     this.normalize();
-    const properties = this[mapName] || {};
+    const properties = {
+      ...(this[mapName] || {})
+    };
     const object = {
       owner: {
         name
