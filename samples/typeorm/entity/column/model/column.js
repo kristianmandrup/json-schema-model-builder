@@ -1,16 +1,16 @@
+const { Base } = require("./base");
 const decorators = require("./decorators");
 
 function createColumnModel({ shape, config }) {
   return new ColumnModel({ shape, config });
 }
 
-class ColumnModel {
-  constructor({ shape = {}, config = {} }) {
-    this.shape = shape;
+class ColumnModel extends Base {
+  constructor(props) {
+    super(props);
+    const { config, column } = this.props;
     this.config = config;
-    const { value } = shape;
-    this.value = value || {};
-    this.db = value.db || {};
+    this.column = column || {};
     this.decorators = value.decorators;
   }
 
@@ -22,20 +22,34 @@ class ColumnModel {
     return true;
   }
 
+  get primary() {
+    return this.column.primary;
+  }
+
   // TRY: always except if explicitly false
   get isColumn() {
-    return this.db.column !== false;
+    return this.column !== false;
   }
 
   get isPrimary() {
     if (!isValidPrimaryType) return;
-    return this.db.primary || (this.value.generate && this.value.unique);
+    return this.primary || (this.generate && this.unique);
+  }
+
+  get generate() {
+    return this.column.generate;
+  }
+
+  get type() {
+    return this.column.unique;
+  }
+
+  get type() {
+    return this.column.type;
   }
 
   get isValidPrimaryType() {
-    return (
-      ["string", "number", "integer"].indexOf(this.value.expandedType) >= 0
-    );
+    return ["string", "number", "integer"].indexOf(this.type) >= 0;
   }
 }
 module.exports = {

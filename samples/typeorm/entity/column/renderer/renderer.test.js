@@ -1,7 +1,13 @@
 const { column, decorators } = require("./renderer");
+const { ColumnDecoratorRenderer } = decorators;
+const { ColumnRenderer } = column;
 
 describe("Column renderer", () => {
   describe("decorators", () => {
+    const model = {};
+    const columnRenderer = new ColumnDecoratorRenderer({ model });
+    const rendered = columnRenderer.render();
+
     test("no primary generated column", () => {
       expect(rendered).not.toMatch(/@PrimaryGeneratedColumn\(\)/);
     });
@@ -22,6 +28,10 @@ describe("Column renderer", () => {
   });
 
   describe("columns", () => {
+    const model = {};
+    const columnRenderer = new ColumnRenderer({ model });
+    const rendered = columnRenderer.render();
+
     test("no primary generated column", () => {
       expect(rendered).not.toMatch(/@PrimaryGeneratedColumn\(\)/);
     });
