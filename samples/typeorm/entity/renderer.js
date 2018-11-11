@@ -3,22 +3,29 @@ function createEntityRenderer({ model, config }) {
 }
 
 class EntityRenderer {
-  constructor({ model, config = {} }) {
+  constructor({ model = {}, config = {} }) {
     this.model = model;
     this.config = config;
   }
 
   render() {
     return `
-${imports}
-${entityDecorator}
-export class ${model.className} {
-  ${body}
+${this.imports}
+
+${this.entityDecorator}
+export class ${this.className} {
+  ${this.body}
 }`;
   }
 
+  get className() {
+    return (
+      this.model.className || this.model.entity || this.model.type || "Unknown"
+    );
+  }
+
   get imports() {
-    return;
+    return this.renderTypeOrmImports;
   }
 
   get typeImports() {
@@ -49,8 +56,12 @@ export class ${model.className} {
     return `@Entity()`;
   }
 
-  body() {
-    return this.model.columns.render().join("\n");
+  get body() {
+    return this.columns ? this.columns.render() : "";
+  }
+
+  get columns() {
+    return this.model.columns;
   }
 }
 

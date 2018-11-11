@@ -15,7 +15,8 @@
     "email": "kmandrup@gmail.com"
   },
   "devDependencies": {
-    "jest": "^23.0.0"
+    "jest": "^23.0.0",
+    "typeorm": "^0.2.8"
   },
   "keywords": [
     "json",
