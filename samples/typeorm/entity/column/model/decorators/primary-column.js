@@ -5,12 +5,8 @@ function createPrimaryColumnDecorator({ model, config }) {
 }
 
 class PrimaryColumnDecorator extends ColumnDecorator {
-  constructor({ model, config }) {
+  constructor({ model, config = {} }) {
     super({ model, config });
-  }
-
-  get generated() {
-    return this.model.generated;
   }
 
   get name() {

@@ -1,10 +1,12 @@
 class BaseColumnModel {
-  constructor({model, config}) {
-    this.model = model
-    this.config = config
+  constructor(props) {
+    this.props = props;
+    const { model, config } = props;
+    this.model = model;
+    this.config = config;
   }
 }
 
-model.exports = {
+module.exports = {
   BaseColumnModel
-}
+};
