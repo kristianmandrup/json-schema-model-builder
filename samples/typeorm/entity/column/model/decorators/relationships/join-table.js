@@ -1,30 +1,30 @@
 class JoinTableDecorator extends Relationship {
-  constructor({model, config}) {
-    super({model, config})
+  constructor(props) {
+    super(props);
   }
 
   get use() {
-    return this.isJoinTable
+    return this.isJoinTable;
   }
 
   get name() {
-    return 'JoinTable'
+    return "JoinTable";
   }
 
   get args() {
     return [
       {
-        key: 'name',
-        value: 'Vote'
+        key: "name",
+        value: "Vote"
       }
-    ]
+    ];
   }
 
   get isJoinTable() {
-    return this.isManyToMany
+    return this.isManyToMany;
   }
 }
 
 module.exports = {
   JoinTableDecorator
-}
+};

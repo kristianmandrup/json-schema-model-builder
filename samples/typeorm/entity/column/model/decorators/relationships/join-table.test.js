@@ -1,14 +1,7 @@
 const { JoinTableDecorator } = require("./join-table");
 const data = require("./data");
 
-const {
-  target,
-  targets,
-  reverseTargets
-  // joinEdges,
-  // oneToOneEdges,
-  // oneToManyEdges
-} = data;
+const { joinEdges, oneToOneEdges, oneToManyEdges } = data;
 
 describe("JoinTableDecorator", () => {
   const config = {};
@@ -24,7 +17,7 @@ describe("JoinTableDecorator", () => {
 
   describe("One to one", () => {
     const model = {
-      targets: target
+      edges: oneToOneEdges
     };
     const joinTableDec = new JoinTableDecorator({ model, config });
 
@@ -35,7 +28,7 @@ describe("JoinTableDecorator", () => {
 
   describe("One to many", () => {
     const model = {
-      targets
+      edges: oneToManyEdges
     };
     const joinTableDec = new JoinTableDecorator({ model, config });
 
@@ -44,22 +37,9 @@ describe("JoinTableDecorator", () => {
     });
   });
 
-  describe("reverse targets not pointing back to self", () => {
+  describe("Many to many edges", () => {
     const model = {
-      name: "Blip",
-      targets: reverseTargets
-    };
-    const joinTableDec = new JoinTableDecorator({ model, config });
-
-    describe("isJoinTable: true", () => {
-      expect(joinTableDec.isJoinTable).toBe(false);
-    });
-  });
-
-  describe("Many to many - reverse target pointing back to self", () => {
-    const model = {
-      name: "Person",
-      targets: reverseTargets
+      edges: joinEdges
     };
     const joinTableDec = new JoinTableDecorator({ model, config });
 

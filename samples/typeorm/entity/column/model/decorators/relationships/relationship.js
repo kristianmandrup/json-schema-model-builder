@@ -1,33 +1,17 @@
 class RelationshipDecorator {
-  constructor({ model, config }) {
-    this.model = model;
-    this.config = config;
-    const { targets } = model;
-    this.targets = targets || [];
-    this.reverseTargets = targets.flatMap(model => model.targets || []);
+  constructor(props) {
+    super(props);
+    this.edges = this.model.edges;
   }
 
-  get targetCount() {
-    return this.targets.length;
+  // if own foreign key of other node primary key
+  get referencesOther() {
+    return this.ownRefs.length > 0;
   }
 
-  get reverseTargetCount() {
-    return this.reverseTargets.length;
-  }
-
-  get hasManyOut() {
-    return this.targetCount > 1;
-  }
-
-  get hasManyIn() {
-    if (!this.reverseTargetCount > 1) {
-      return false;
-    }
-    return reverseTargets.find(model => model.name === this.name);
-  }
-
-  get isManyToMany() {
-    return this.hasManyOut && this.hasManyIn;
+  // if foreign key of other node points to own primary key
+  get isReferenced() {
+    return this.foreignRefs.length > 1;
   }
 }
 module.exports = {
