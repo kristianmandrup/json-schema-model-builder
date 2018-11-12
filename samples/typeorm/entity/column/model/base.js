@@ -1,4 +1,4 @@
-class BaseColumnModel {
+class Base {
   constructor(props) {
     this.props = props;
     const { model, config } = props;
@@ -8,5 +8,5 @@ class BaseColumnModel {
 }
 
 module.exports = {
-  BaseColumnModel
+  Base
 };

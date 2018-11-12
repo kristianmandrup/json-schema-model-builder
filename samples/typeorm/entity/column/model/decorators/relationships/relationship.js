@@ -1,19 +1,25 @@
-class RelationshipDecorator {
+const { Base } = require("../base");
+
+class Relationship extends Base {
   constructor(props) {
     super(props);
-    this.edges = this.model.edges;
+    let { edges, node } = this.model;
+    edges = edges || [];
+    node = node || {};
+    this.edges = edges;
+    this.node = node;
+    const { properties } = node;
+    this.properties = properties || {};
   }
 
-  // if own foreign key of other node primary key
-  get referencesOther() {
-    return this.ownRefs.length > 0;
+  get propNames() {
+    return Object.keys(this.properties);
   }
 
-  // if foreign key of other node points to own primary key
-  get isReferenced() {
-    return this.foreignRefs.length > 1;
+  get foreignKeys() {
+    return this.propNames.filter(prop => !prop.foreignKey);
   }
 }
 module.exports = {
-  RelationshipDecorator
+  Relationship
 };

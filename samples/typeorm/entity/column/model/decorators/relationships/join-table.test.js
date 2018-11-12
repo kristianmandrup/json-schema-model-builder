@@ -1,7 +1,7 @@
 const { JoinTableDecorator } = require("./join-table");
 const data = require("./data");
 
-const { joinEdges, oneToOneEdges, oneToManyEdges } = data;
+const { nodes, joinEdges, oneToOneEdges, oneToManyEdges } = data;
 
 describe("JoinTableDecorator", () => {
   const config = {};
@@ -10,40 +10,43 @@ describe("JoinTableDecorator", () => {
     const model = {};
     const joinTableDec = new JoinTableDecorator({ model, config });
 
-    describe("isJoinTable: false", () => {
+    test("isJoinTable: false", () => {
       expect(joinTableDec.isJoinTable).toBe(false);
     });
   });
 
   describe("One to one", () => {
     const model = {
-      edges: oneToOneEdges
+      edges: oneToOneEdges,
+      node: nodes.A
     };
     const joinTableDec = new JoinTableDecorator({ model, config });
 
-    describe("isJoinTable: false", () => {
+    test("isJoinTable: false", () => {
       expect(joinTableDec.isJoinTable).toBe(false);
     });
   });
 
   describe("One to many", () => {
     const model = {
-      edges: oneToManyEdges
+      edges: oneToManyEdges,
+      node: nodes.A
     };
     const joinTableDec = new JoinTableDecorator({ model, config });
 
-    describe("isJoinTable: false", () => {
+    test("isJoinTable: false", () => {
       expect(joinTableDec.isJoinTable).toBe(false);
     });
   });
 
   describe("Many to many edges", () => {
     const model = {
-      edges: joinEdges
+      edges: joinEdges,
+      node: nodes.join
     };
     const joinTableDec = new JoinTableDecorator({ model, config });
 
-    describe("isJoinTable: true", () => {
+    test("isJoinTable: true", () => {
       expect(joinTableDec.isJoinTable).toBe(true);
     });
   });
