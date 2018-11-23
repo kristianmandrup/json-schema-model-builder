@@ -1,6 +1,9 @@
 # Many-to-many relations
 
-See [TypeORML Many-to-many relations](https://github.com/typeorm/typeorm/blob/master/docs/many-to-many-relations.md)
+## Resources
+
+- [TypeORML Many-to-many relations](https://github.com/typeorm/typeorm/blob/master/docs/many-to-many-relations.md)
+- [graphGenTypeorm: generateTypeORM from GraphQL type definitions](https://github.com/jjwtay/graphGenTypeorm)
 
 Many-to-many is a relation where A contains multiple instances of B, and B contain multiple instances of A.
 

@@ -10,6 +10,14 @@ For each type or enum we can reshape the shape generated. Reshaping can add extr
 
 Then pass we can pass the final shapes to be rendered.
 
+Schema transformers and builders:
+
+- [graphql-compose-json](https://github.com/graphql-compose/graphql-compose-json)
+- [graphql-to-json](https://www.npmjs.com/package/graphql-to-json)
+- [graphschematojson](https://github.com/kristianmandrup/graphSchemaToJson)
+
+Note that the `graphschematojson` library is the perfect gateway to take the JSON schema model output and transform to a GrapQL typedef.
+
 ## Example
 
 ```js
