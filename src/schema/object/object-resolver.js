@@ -1,11 +1,14 @@
-const { Base } = require("../../base");
+const { Fingerprinted } = require("./finger-printed");
 const { camelize, isStringType, isObjectType } = require("./utils");
 const { createPropertiesResolver } = require("./properties-resolver");
-const { createPropertyEntityResolver } = require("./property/property-entity");
+const {
+  createPropertyEntityResolver
+} = require("./property/property-entity-resolver");
 const { Fingerprint } = require("./property/types/object/fingerprint");
 
 const createObjectResolver = ({ object, schema, config, opts }) => {
   config = config || {};
+  config.store = config.store || {};
   config.createPropertiesResolver =
     config.createPropertiesResolver || createPropertiesResolver;
   config.createPropertyEntityResolver =
@@ -44,7 +47,7 @@ const resolve = ({
   return resolve();
 };
 
-class ObjectResolver extends Base {
+class ObjectResolver extends Fingerprinted {
   constructor({ object, schema, config, opts = {} }) {
     super(config, opts);
     const obj = object || schema;
@@ -70,51 +73,6 @@ class ObjectResolver extends Base {
       this.config.$schemaRef = obj;
     }
     this.addFingerprint();
-  }
-
-  addFingerprint() {
-    this.fingerprint = this.createFingerprint();
-    this.cache[this.hash] = this.object;
-  }
-
-  get hash() {
-    return this.fingerprint.hash;
-  }
-
-  addFingerprint() {
-    this.fingerprint = this.createFingerprint();
-    this.addToCache();
-  }
-
-  addToCache() {
-    if (this.wasCached) {
-      this.warn("addToCache", "object was already cached", {
-        object: this.fingerprint
-      });
-      return;
-    }
-    this.cache[this.hash] = this.property;
-  }
-
-  get wasCached() {
-    return Boolean(this.cached);
-  }
-
-  get cache() {
-    this.config.cache = this.config.cache || {};
-    return this.config.cache || {};
-  }
-
-  get cached() {
-    return this.cache[this.hash];
-  }
-
-  get hash() {
-    return this.fingerprint.hash;
-  }
-
-  createFingerprint() {
-    return new Fingerprint({ object: this.object, config: this.config });
   }
 
   get schemaType() {

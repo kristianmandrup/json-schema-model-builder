@@ -1,5 +1,7 @@
 const { Base } = require("../../base");
-const { createPropertyEntityResolver } = require("./property/property-entity");
+const {
+  createPropertyEntityResolver
+} = require("./property/property-entity-resolver");
 
 const createPropertiesResolver = ({ object, config }) => {
   config.createPropertyEntityResolver =
@@ -34,7 +36,26 @@ class PropertiesResolver extends Base {
       (this.resolved && !force) ||
       Object.keys(this.properties).reduce(this.reduceProp.bind(this), {});
 
+    this.onResolved(this.resolved);
     return this.resolved;
+  }
+
+  onResolved(resolved) {
+    const { config } = this;
+    if (config.store) {
+      this.addResolvedToStore(resolved);
+    }
+  }
+
+  addResolvedToStore(resolved) {
+    this.getStoreContainer(resolved).push(resolved);
+  }
+
+  getStoreContainer(resolved) {
+    const { store } = this.config;
+    const { type } = resolved;
+    store[type] = store[type] || {};
+    return store[type];
   }
 
   groupByTypes() {
@@ -71,7 +92,7 @@ class PropertiesResolver extends Base {
     });
     const entity = propertyEntityResolver.resolve();
     const transformEntity = this.config.transformEntity || this.transformEntity;
-    const transformedEntity = this.transformEntity(entity, {
+    const transformedEntity = transformEntity(entity, {
       config: this.config,
       ctx: this
     });

@@ -6,8 +6,6 @@ This can be leveraged to build a [Declarative Driven Development](https://github
 
 ## Status
 
-Under development, but mostly complete. Use the classes as a base for your own infrastructure.
-
 See [Building Blocks](./BuildingBlocks.md) for more details
 
 Please check the tests and markdown `*.md` documentation files for in-depth API documentation (Note: needs update).
@@ -75,6 +73,17 @@ Your concerns for output target
 - `Renderer` Rendering can be done when target model has been built
 
 The following examples act to demonstrate how you might go about using this infrastructure to generate source code or models.
+
+## Usage
+
+The types collected, such as `type`, `enum` etc are collected in the `store` entry of the config object passed in.
+
+```js
+const config = {};
+const result = createSchema({ schema, config });
+const { store } = config;
+console.log(store);
+```
 
 ### Examples
 
