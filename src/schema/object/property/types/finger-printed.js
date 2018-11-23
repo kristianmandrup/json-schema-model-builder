@@ -1,6 +1,6 @@
 const { BaseType } = require("./base-type");
 
-module.exports = class FingerprintedType extends BaseType {
+class FingerprintedType extends BaseType {
   constructor(...args) {
     super(...args);
   }
@@ -49,4 +49,8 @@ module.exports = class FingerprintedType extends BaseType {
   createFingerprint() {
     return new Fingerprint({ object: this.object, config: this.config });
   }
+}
+
+module.exports = {
+  FingerprintedType
 };

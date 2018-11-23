@@ -1,4 +1,6 @@
-const { createPropertyEntityResolver } = require("../../../property-entity");
+const {
+  createPropertyEntityResolver
+} = require("../../../property-entity-resolver");
 const { Base } = require("../../../../../../base");
 const { isFunctionType } = require("../../utils");
 

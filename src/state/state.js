@@ -49,16 +49,16 @@ class State extends Base {
     return this.collections.unions;
   }
 
-  get(key, type) {
+  get(key, type = "type") {
     const typeMap = this.mapFor(type);
     return typeMap[key];
   }
 
-  collection(type) {
+  collection(type = "type") {
     return this.mapFor(type);
   }
 
-  mapFor(type) {
+  mapFor(type = "type") {
     const colName = type + "s";
     if (!this.collections[colName]) {
       this.error(`Invalid map type: ${type}`);
@@ -66,13 +66,16 @@ class State extends Base {
     return this.collections[colName];
   }
 
-  has(value, type) {
+  has(value, type = "type") {
     const name = isStringType(value) ? value : value.name;
+    type = value.type || type;
     const typeMap = this.mapFor(type);
-    return Boolean(typeMap[name]);
+    const found = typeMap[name];
+    return Boolean(found);
   }
 
-  add(obj, type) {
+  add(obj, type = "type") {
+    type = obj.type || obj.$type || type;
     this.ensure(obj, type);
     return this;
   }
