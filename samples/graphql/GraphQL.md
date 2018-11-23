@@ -18,6 +18,8 @@ Schema transformers and builders:
 
 Note that the `graphschematojson` library is the perfect gateway to take the JSON schema model output and transform to a GrapQL typedef.
 
+Use the [GraphQL typedef writer](https://github.com/kristianmandrup/graphSchemaToJson/blob/master/src/writer/index.js) to write a TypeScript class source file for a TypeORM entity from a JS schema definition object.
+
 ## Example
 
 ```js

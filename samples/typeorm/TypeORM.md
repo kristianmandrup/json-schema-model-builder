@@ -15,6 +15,8 @@ Use an approach similar to:
 
 Create gateway library that can act as gateway to take the JSON schema model output and transform to a TypeORM definition .
 
+Use the [Class writer](https://github.com/kristianmandrup/graphSchemaToJson/blob/master/src/writer/class.js) to write a TypeScript class source file for a TypeORM entity from a JS schema definition object.
+
 ## Relationships
 
 - Many to many
