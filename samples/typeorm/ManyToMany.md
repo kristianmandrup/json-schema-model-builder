@@ -286,19 +286,3 @@ Alternative, auto-create Join table
 }
 
 ````
-
-## Translation to TypeORM (relational)
-
-```
-Person
-  id: primary
-  @ManyToMany(type => Rating)
-  rating: Rating[]
-
-Product
-  id: primary
-  @ManyToMany(type => Rating)
-  rating: Rating[]
-
-Rating
-```

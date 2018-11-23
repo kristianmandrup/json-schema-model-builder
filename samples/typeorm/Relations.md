@@ -1,5 +1,98 @@
 # Relations
 
+We should use an approach similar to [graphGenTypeorm](https://github.com/jjwtay/graphGenTypeorm#important)
+
+```graphql
+type Author @Entity {
+    id: Int! @PrimaryGeneratedColumn
+    name: String! @Column({type: "varchar"})
+    books: [Book] @ManyToMany(inverseSide: "authors") @JoinColumn
+}
+
+type Book @Entity {
+    id: Int! @PrimaryGeneratedColumn
+    title: String! @Column({type: "varchar"})
+    description: String @Column({type: "varchar"})
+    authors: [Author] @ManyToMany(inverseSide: "books")
+    publisher: Publisher @ManyToOne(inverseSide: "books")
+}
+
+type Publisher @Entity {
+    id: Int! @PrimaryGeneratedColumn
+    name: String! @Column({type: "varchar"})
+    books: @OneToMany(inverseSide: "publisher")
+}
+```
+
+But instead define these decorators in the JSON schema entries:
+
+```js
+{
+  name: 'Book',
+  entity: true,
+  properties {
+    id: {
+      type: 'string',
+      primary: true,
+      generated: true,
+      column: true
+    },
+    title: {
+      type: 'string',
+      column: {
+        type: 'varchar',
+      }
+    },
+    authors: {
+      type: 'array'
+      items: [{
+        typeName: 'Author'
+      }],
+      manyToMany: {
+        typeName: 'Author'
+        inverseSide: "books"
+      }
+    },
+    publisher: {
+      type: 'string', // id ref
+      manyToOne: {
+        typeName: 'Publisher'
+        inverseSide: "books"
+      }
+    }
+  }
+}
+```
+
+### Columns
+
+See [columns](https://github.com/jjwtay/graphGenTypeorm/blob/master/src/entity.js#L240)
+
+```js
+{
+  ...type.fields[fieldName].directives,
+  primary: isPrimary(fieldName, type),
+  type: getType(type.fields[fieldName]),
+  generated: isGenerated(fieldName, type),
+  nullable: isNullable(fieldName, type)
+}
+```
+
+### Relations
+
+See [relations](https://github.com/jjwtay/graphGenTypeorm/blob/master/src/entity.js#L255)
+
+```js
+{
+  joinTable: type.fields[fieldName].directives[consts.JOIN_COLUMN] ? true : false,
+  target: type.fields[fieldName].type,
+  cascade: type.fields[fieldName].directives[consts.JOIN_COLUMN] ? true : false,
+  type: relType,
+  inverseSide: inverseSide,
+  lazy: true,
+}
+```
+
 ## Many-to-Many relation
 
 Resources:

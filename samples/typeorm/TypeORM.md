@@ -13,7 +13,7 @@ Use an approach similar to:
 
 - [graphschematojson](https://github.com/kristianmandrup/graphSchemaToJson)
 
-Create gateway library that can act as gateway to take the JSON schema model output and transform to a TypeORM definition.
+Create gateway library that can act as gateway to take the JSON schema model output and transform to a TypeORM definition .
 
 ## Relationships
 
