@@ -9,13 +9,15 @@ Derive TypeORM schemas (or relational ORM schemas in general) from JSON schema.
 
 Please look at these resources. Use the `graphGenTypeorm` approach, creating a JS structure that can be fed directly into typeorm to create an entity schema.
 
-Use an approach similar to:
+We can use an approach similar to:
 
 - [graphschematojson](https://github.com/kristianmandrup/graphSchemaToJson)
 
-Create gateway library that can act as gateway to take the JSON schema model output and transform to a TypeORM definition .
+This "gateway library" can take a JSON schema model and generate a TypeORM schema entities definition
 
-Use the [Class writer](https://github.com/kristianmandrup/graphSchemaToJson/blob/master/src/writer/class.js) to write a TypeScript class source file for a TypeORM entity from a JS schema definition object.
+### graph-schema-json-writer
+
+Alternatively use the [ClassType](https://github.com/kristianmandrup/graph-schema-json-writer#writing-typescript-source-files) writer in [graph-schema-json-writer](https://github.com/kristianmandrup/graph-schema-json-writer) to write a TypeScript `class` source file for a TypeORM entity from a JS schema definition object.
 
 ## Relationships
 
