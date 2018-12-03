@@ -280,9 +280,8 @@ Alternative, auto-create Join table
   }],
   ratings: [{
     type: 'Rating'
-    person: 'person1'
-    product: 'prod1'
+    personId: 'person1'
+    productId: 'prod1'
   }],
 }
-
 ````

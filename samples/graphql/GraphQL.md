@@ -14,11 +14,17 @@ Schema transformers and builders:
 
 - [graphql-compose-json](https://github.com/graphql-compose/graphql-compose-json)
 - [graphql-to-json](https://www.npmjs.com/package/graphql-to-json)
-- [graphschematojson](https://github.com/kristianmandrup/graphSchemaToJson)
+- [graphSchemaToJson ](https://github.com/kristianmandrup/graphSchemaToJson)
+- [graphGenTypeorm](https://github.com/jjwtay/graphGenTypeorm)
+- [graph-schema-json-writer](https://github.com/kristianmandrup/graph-schema-json-writer)
 
 Note that the `graphschematojson` library is the perfect gateway to take the JSON schema model output and transform to a GrapQL typedef.
 
-Use the [GraphQL typedef writer](https://github.com/kristianmandrup/graphSchemaToJson/blob/master/src/writer/index.js) to write a TypeScript class source file for a TypeORM entity from a JS schema definition object.
+Use the [graph-schema-json-writer](https://github.com/kristianmandrup/graph-schema-json-writer) to write a TypeScript class source file for a TypeORM entity from a JS schema definition object.
+
+You can also use the library [json-schema-to-graphql-types](https://github.com/kristianmandrup/json-schema-to-graphql-types) to a similar, but limited effect as illustrated in the example below:
+
+See also [Type Resolution](./TypeResolution.md)
 
 ## Example
 

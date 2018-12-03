@@ -21,10 +21,8 @@ Alternatively use the [ClassType](https://github.com/kristianmandrup/graph-schem
 
 ## Relationships
 
-- Many to many
-- One to many
-
-See [Relations](./Relations.md)
+- [Relations](./Relations.md)
+- [Many to Many](./ManyToMany.md)
 
 ### Example
 
